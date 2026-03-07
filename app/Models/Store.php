@@ -20,10 +20,16 @@ class Store extends Model
 
     public function seller()
     {
-        return $this->belongsTo(User::class , 'seller_id');
+        return $this->belongsTo(User::class, 'seller_id');
     }
+
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'store_categories');
     }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('stores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('saller_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('logo_url')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('contact_phone')->nullable();
             $table->enum('status', ['active', 'disabled'])->default('active');
             $table->timestamps();
-            $table->unique('saller_id');
+            $table->unique('seller_id');
         });
     }
 

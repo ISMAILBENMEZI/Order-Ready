@@ -42,11 +42,11 @@ class RegisteredUserController extends Controller
             'intended_url' => url()->previous(),
         ]);
 
-        return redirect()->route('auth.verify.from')
+        return redirect()->route('auth.verify.form')
             ->with('success', 'We sent a verification code to your email.');
     }
 
-    public function showVerifyFrom()
+    public function showVerifyForm()
     {
         return view('auth.verify-email');
     }
@@ -60,19 +60,18 @@ class RegisteredUserController extends Controller
         $userId = session('verify_user_id');
 
         if (!$userId) {
-            return redirect()->route('regisetr')->with('error', 'Verification session expired.');
+            return redirect()->route('auth.register')->with('error', 'Verification session expired.');
         }
 
         $user = User::find($userId);
 
         if (!$user) {
-            return redirect()->route('register')->with('error', 'User not found.');
+            return redirect()->route('auth.register')->with('error', 'User not found.');
         }
 
-        if ($user->email_verification_expires_at < now()) {
+        if (!$user->email_verification_code || $user->email_verification_expires_at->isPast()) {
             return back()->withErrors([
                 'code' => 'The verification code has expired.',
-
             ]);
         }
 
@@ -90,6 +89,38 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(session('intended_url', '/'));
+        if ($user->role->name === 'seller') {
+            return redirect()->route('seller.store.setup');
+        }
+
+        return redirect('/');
+    }
+
+    public function resendCode()
+    {
+        $userId = session('verify_user_id');
+
+        if (!$userId) {
+            return redirect()->route('auth.register')
+                ->with('error', 'Verification session expired. Please register again.');
+        }
+
+        $user = User::find($userId);
+
+        if (!$user) {
+            return redirect()->route('auth.register')
+                ->with('error', 'User not found.');
+        }
+
+        $code = str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        $user->update([
+            'email_verification_code' => $code,
+            'email_verification_expires_at' => now()->addMinute(10),
+        ]);
+
+        Mail::to($user->email)->send(new VerifyEmailCodeMail($code));
+
+        return back()->with('success', 'A new verification code has been sent to your email.');
     }
 }

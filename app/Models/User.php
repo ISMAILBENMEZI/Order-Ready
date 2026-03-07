@@ -22,6 +22,15 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'status',
+        'email_verification_code',
+        'email_verification_expires_at',
+        'email_verified_at',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'email_verification_expires_at' => 'datetime',
     ];
 
     public function role()
