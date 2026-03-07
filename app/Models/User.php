@@ -21,7 +21,52 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role_id',
     ];
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function store()
+    {
+        return $this->hasOne(Store::class, 'saller_id');
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    public function interestRequests()
+    {
+        return $this->hasMany(InterestRequest::class);
+    }
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class, 'seller_id');
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.
