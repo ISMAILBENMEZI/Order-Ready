@@ -1,38 +1,125 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    let currentStep = 1;
+    const form = document.getElementById('store-setup-form');
+    let currentStep = Number(form?.dataset.oldStep || 1);
     const totalSteps = 3;
-    const titles = { 1: 'Store Information', 2: 'Store Categories', 3: 'Store Branding' };
 
-    const updateStep = () => {
-        document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
-        const activeStep = document.getElementById(`step-${currentStep}`);
-        if (activeStep) activeStep.classList.remove('hidden');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    const submitBtn = document.getElementById('submit-btn');
 
-        document.getElementById('step-title').textContent = titles[currentStep];
+    const titles = {
+        1: 'Store Information',
+        2: 'Store Categories',
+        3: 'Store Branding'
+    };
 
+    function showAlert(message, type = "error") {
+        const alertBox = document.getElementById("form-alert");
+        if (!alertBox) {
+            alert(message);
+            return;
+        }
 
-        for (let i = 1; i <= 3; i++) {
-            const dot = document.getElementById(`dot-${i}`);
-            if (dot) {
-                if (i === currentStep) {
-                    dot.className = 'h-2 w-8 rounded-full bg-blue-600 transition-all duration-500';
-                } else if (i < currentStep) {
-                    dot.className = 'h-2 w-2 rounded-full bg-emerald-400 transition-all duration-500';
-                } else {
-                    dot.className = 'h-2 w-2 rounded-full bg-slate-100 transition-all duration-500';
-                }
+        alertBox.innerText = message;
+        alertBox.className = type === "error"
+            ? "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-red-100 text-red-700 border border-red-200"
+            : "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-emerald-100 text-emerald-700 border border-emerald-200";
+
+        alertBox.classList.remove("hidden");
+        setTimeout(() => alertBox.classList.add("hidden"), 5000);
+    }
+
+    const validateStep = () => {
+        if (currentStep === 1) {
+            const name = document.querySelector('input[name="name"]').value.trim(); // تصحيح inpute و value
+            const description = document.querySelector('textarea[name="description"]').value.trim();
+            const location = document.querySelector('input[name="location"]').value.trim();
+            const email = document.querySelector('input[name="contact_email"]').value.trim();
+            const phone = document.querySelector('input[name="contact_phone"]').value.trim();
+
+            if (!name || !description || !location || !email || !phone) {
+                showAlert("Please fill all information in Step 1.");
+                return false;
             }
         }
 
-        document.getElementById('prev-btn').classList.toggle('hidden', currentStep === 1);
-        document.getElementById('next-btn').classList.toggle('hidden', currentStep === totalSteps);
-        document.getElementById('submit-btn').classList.toggle('hidden', currentStep !== totalSteps);
+        if (currentStep === 2) {
+            const categories = document.querySelectorAll('input[name="categories[]"]:checked');
+            if (categories.length === 0) {
+                showAlert("Please select at least one category.");
+                return false;
+            }
+        }
+
+        return true;
     };
 
-    document.getElementById('next-btn').onclick = () => { if (currentStep < totalSteps) { currentStep++; updateStep(); } };
-    document.getElementById('prev-btn').onclick = () => { if (currentStep > 1) { currentStep--; updateStep(); } };
+    const updateStep = () => {
+        document.querySelectorAll('.step').forEach(step => step.classList.add('hidden'));
+
+        const activeStep = document.getElementById(`step-${currentStep}`);
+        if (activeStep) activeStep.classList.remove('hidden');
+
+        const stepTitle = document.getElementById('step-title');
+        if (stepTitle) stepTitle.textContent = titles[currentStep];
+
+        for (let i = 1; i <= totalSteps; i++) {
+            const dot = document.getElementById(`dot-${i}`);
+            if (!dot) continue;
+            if (i === currentStep) {
+                dot.className = 'h-2 w-8 rounded-full bg-blue-600 transition-all duration-500';
+            } else if (i < currentStep) {
+                dot.className = 'h-2 w-2 rounded-full bg-emerald-400 transition-all duration-500';
+            } else {
+                dot.className = 'h-2 w-2 rounded-full bg-slate-100 transition-all duration-500';
+            }
+        }
+
+        if (prevBtn) prevBtn.classList.toggle('hidden', currentStep === 1);
+        if (nextBtn) nextBtn.classList.toggle('hidden', currentStep === totalSteps);
+        if (submitBtn) submitBtn.classList.toggle('hidden', currentStep !== totalSteps);
+    };
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (validateStep()) { // التحقق قبل الانتقال
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateStep();
+                }
+            }
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStep();
+            }
+        });
+    }
+
+    const bindImagePreview = (inputId, previewId, placeholderId) => {
+        const input = document.getElementById(inputId);
+        const preview = document.getElementById(previewId);
+        const placeholder = document.getElementById(placeholderId);
+
+        if (!input || !preview || !placeholder) return;
+
+        input.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const fileUrl = URL.createObjectURL(file);
+                preview.src = fileUrl;
+                preview.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+            }
+        });
+    };
+
+    bindImagePreview('logo-input', 'logo-preview', 'logo-placeholder');
+    bindImagePreview('banner-input', 'banner-preview', 'banner-placeholder');
 
     updateStep();
 });

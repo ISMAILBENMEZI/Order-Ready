@@ -39,7 +39,7 @@ class User extends Authenticatable
     }
     public function store()
     {
-        return $this->hasOne(Store::class, 'saller_id');
+        return $this->hasOne(Store::class, 'seller_id');
     }
 
     public function favorites()
