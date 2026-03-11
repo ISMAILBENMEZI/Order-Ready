@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Route;
@@ -13,4 +14,7 @@ Route::prefix('auth')->group(function(){
     Route::post('/verify-email',[RegisteredUserController::class , 'verifyEmail'])->name('auth.verify.email');
 
     Route::post('/resend-code' , [RegisteredUserController::class , 'resendCode'])->name('auth.resend.code');
+
+    Route::get('/login', [LoginController::class, 'create'])->name('auth.login');
+    Route::post('/login',[LoginController::class, 'store']);
 });
