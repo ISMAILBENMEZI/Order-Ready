@@ -6,15 +6,17 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix('auth')->group(function(){
-    Route::get('/register',[RegisteredUserController::class, 'showRegister'])->name('auth.register');
-    Route::post('/register',[RegisteredUserController::class , 'register'])->name('auth.register.store');
+Route::prefix('auth')->group(function () {
+    Route::get('/register', [RegisteredUserController::class, 'showRegister'])->name('auth.register');
+    Route::post('/register', [RegisteredUserController::class, 'register'])->name('auth.register.store');
 
-    Route::get('/verify-email' , [RegisteredUserController::class , 'showVerifyForm'])->name('auth.verify.form');
-    Route::post('/verify-email',[RegisteredUserController::class , 'verifyEmail'])->name('auth.verify.email');
+    Route::get('/verify-email', [RegisteredUserController::class, 'showVerifyForm'])->name('auth.verify.form');
+    Route::post('/verify-email', [RegisteredUserController::class, 'verifyEmail'])->name('auth.verify.email');
 
-    Route::post('/resend-code' , [RegisteredUserController::class , 'resendCode'])->name('auth.resend.code');
+    Route::post('/resend-code', [RegisteredUserController::class, 'resendCode'])->name('auth.resend.code');
 
     Route::get('/login', [LoginController::class, 'create'])->name('auth.login');
-    Route::post('/login',[LoginController::class, 'store']);
+    Route::post('/login', [LoginController::class, 'store']);
+
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 });

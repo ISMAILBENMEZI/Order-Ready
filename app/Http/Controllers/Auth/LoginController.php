@@ -37,7 +37,7 @@ class LoginController extends Controller
         $request->session()->regenerate();
         $role = $user->role->name;
 
-        if ($role=== 'seller') {
+        if ($role === 'seller') {
             if (!$user->store()->exists()) {
                 return redirect()->route('seller.store.setup');
             }
@@ -47,6 +47,16 @@ class LoginController extends Controller
         if ($role === 'admin') {
             return redirect()->route('admin.dashboard');
         }
+
+        return redirect()->route('home');
+    }
+
+    public function destroy(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect()->route('home');
     }
