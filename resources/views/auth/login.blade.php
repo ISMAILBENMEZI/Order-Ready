@@ -77,7 +77,7 @@
                             me</span>
                     </label>
 
-                    <a href="#" class="text-sm text-blue-600 hover:text-blue-700 font-bold transition-colors">
+                    <a href="{{ route('auth.password.request') }}" class="text-sm text-blue-600 hover:text-blue-700 font-bold transition-colors">
                         Forgot Password?
                     </a>
                 </div>

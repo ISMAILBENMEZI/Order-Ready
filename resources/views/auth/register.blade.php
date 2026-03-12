@@ -78,7 +78,7 @@
 
             <p class="text-center text-gray-500 mt-8 text-sm">
                 Already have an account?
-                <a href="#" class="text-blue-600 font-bold hover:underline transition duration-200">Sign In</a>
+                <a href="{{ route('auth.login') }}" class="text-blue-600 font-bold hover:underline transition duration-200">Sign In</a>
             </p>
         </div>
     </div>

@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-            if (validateStep()) { // التحقق قبل الانتقال
+            if (validateStep()) { 
                 if (currentStep < totalSteps) {
                     currentStep++;
                     updateStep();
