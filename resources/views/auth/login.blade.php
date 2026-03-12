@@ -30,6 +30,19 @@
                 </div>
             @endif
 
+            @if (session('status'))
+                <div
+                    class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm font-bold flex items-center shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                        stroke="currentColor" class="w-5 h-5 mr-3 flex-shrink-0">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+
+                    <span>{{ session('status') }}</span>
+                </div>
+            @endif
+
             <form id="login-form" method="POST" action="#">
                 @csrf
 
@@ -73,11 +86,12 @@
                         <input type="checkbox" name="remember" id="remember"
                             class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 transition-all">
                         <span
-                            class="ml-2 text-sm text-gray-600 font-medium group-hover:text-gray-900 transition-colors">Remember
-                            me</span>
+                            class="ml-2 text-sm text-gray-600 font-medium group-hover:text-gray-900 transition-colors">Remember me
+                        </span>
                     </label>
 
-                    <a href="{{ route('auth.password.request') }}" class="text-sm text-blue-600 hover:text-blue-700 font-bold transition-colors">
+                    <a href="{{ route('auth.password.request') }}"
+                        class="text-sm text-blue-600 hover:text-blue-700 font-bold transition-colors">
                         Forgot Password?
                     </a>
                 </div>

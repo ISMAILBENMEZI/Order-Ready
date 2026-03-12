@@ -18,7 +18,7 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (!Auth::attempt($credentials)) {
+        if (!Auth::attempt($credentials,$request->filled('remember'))) {
             return back()->withErrors([
                 'email' => 'Invalid email or password.',
             ])->onlyInput('email');

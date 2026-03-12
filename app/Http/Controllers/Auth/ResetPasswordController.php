@@ -14,8 +14,18 @@ class ResetPasswordController extends Controller
 {
     public function create($token)
     {
+        $email = request('email');
+
+        $reset = DB::table('password_reset_tokens')->where('email', $email)->first();
+
+        if (!$reset || !Hash::check($token, $reset->token) || Carbon::parse($reset->created_at)->addMinutes(60)->isPast()) {
+            return redirect()->route('auth.login')
+                ->with('error', 'This password reset link is invalid or has expired');
+        }
+
         return view('auth.reset-password', [
-            'token' => $token
+            'token' => $token,
+            'email' => $email
         ]);
     }
 
