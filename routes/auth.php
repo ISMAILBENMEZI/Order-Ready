@@ -19,7 +19,7 @@ Route::prefix('auth')->group(function () {
     Route::get('/login', [LoginController::class, 'create'])->name('auth.login');
     Route::post('/login', [LoginController::class, 'store']);
 
-    Route::post('/logout', [LoginController::class, 'destroy'])->name('auth.logout');
+    Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 
     Route::get('/forgot-password',[ForgotPasswordController::class , 'create'])->name('auth.password.request');
     Route::post('/forgot-password',[ForgotPasswordController::class , 'store'])->name('auth.password.email');
