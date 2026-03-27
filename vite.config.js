@@ -11,7 +11,9 @@ export default defineConfig({
                  'resources/js/store/store-setup.js',
                  'resources/js/auth/register.js',
                  'resources/js/auth/login.js',
-                 'resources/js/store/create-product.js'
+                 'resources/js/store/create-product.js',
+                 'resources/js/store/myStore.js',
+                 'resources/js/globalUtils/notifications.js'
                 ],
             refresh: true,
         }),

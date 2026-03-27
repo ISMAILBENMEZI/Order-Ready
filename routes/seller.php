@@ -18,4 +18,10 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')
 
         Route::get('/my-store/{product}/edit', [StoreController::class, 'editProduct'])->name('store.edit-product');
         Route::put('/my-store/{product}/update', [StoreController::class, 'updateProduct'])->name('store.update-product');
-});
+
+        Route::delete('/my-store/product/{product}', [StoreController::class, 'deleteProduct'])->name('store.delete-product');
+
+        Route::get('/my-store/product/{product}/edit', [StoreController::class, 'editProduct'])->name('seller.store.edit-product');
+
+        Route::put('/my-store/product/{product}', [StoreController::class, 'updateProduct'])->name('seller.store.update-product');
+    });

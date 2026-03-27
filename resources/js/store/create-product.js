@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+
     const form = document.getElementById('product-form');
     const alertBox = document.getElementById('form-alert');
 
@@ -44,21 +45,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         galleryFiles.forEach((file, index) => {
             const reader = new FileReader();
-
             reader.onload = function (e) {
                 const div = document.createElement('div');
-                div.className = "relative group shadow-sm rounded-xl overflow-hidden h-24";
+                div.className = "relative group shadow-sm rounded-xl border border-gray-200 overflow-hidden h-24 bg-white";
                 div.innerHTML = `
-                    <img src="${e.target.result}" class="w-full h-full object-cover">
-                    <button type="button" 
-                        class="absolute top-1 right-1 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-lg hover:bg-red-600 transition-colors"
-                        onclick="removeFromGallery(${index})">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                `;
+                <img src="${e.target.result}" class="w-full h-full object-contain p-1">
+                <button type="button" 
+                    class="absolute top-1 right-1 bg-red-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-[10px] shadow-lg hover:bg-red-600 transition-colors"
+                    onclick="removeFromGallery(${index})">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            `;
                 galleryPreviewContainer.appendChild(div);
             }
-
             reader.readAsDataURL(file);
         });
     }
@@ -98,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (discountInput) {
             const discount = parseFloat(discountInput);
 
-            if (isNaN(discount || discount < 0)) {
+            if (isNaN(discount) || discount < 0) {
                 errors.push("Discount must be a valid positive number.");
             }
             else if (discount >= price) {
@@ -128,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (errors.length > 0) {
             e.preventDefault();
-            showAlert(errors[0]);
+            window.showAlert(errors[0], "error");
             return;
         }
 
@@ -154,38 +153,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.ok && data.success) {
                     window.location.href = data.redirect;
                 } else {
-                    showAlert(data.message || "Validation Error");
+                    window.showAlert(data.message || "Validation Error", "error");
                     console.error('Server Error:', data);
                 }
             })
             .catch(error => {
                 console.error('Fetch Error:', error);
-                showAlert("Check your internet or server connection");
+                window.showAlert("Check your internet or server connection", "error");
             });
     });
-
-    function showAlert(message) {
-        if (alertBox) {
-            alertBox.innerText = message;
-            alertBox.classList.remove('hidden', 'bg-green-500', 'text-white');
-            alertBox.classList.add('bg-red-500', 'text-white', 'block');
-            alertBox.className = "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-red-100 text-red-700 border border-red-200";
-
-
-            alertBox.style.opacity = "0";
-
-            setTimeout(() => {
-                alertBox.style.opacity = "1";
-            }, 10);
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            setTimeout(() => {
-                alertBox.classList.add('hidden');
-            }, 5000);
-        }
-        else {
-            alert(message);
-        }
-    }
 });

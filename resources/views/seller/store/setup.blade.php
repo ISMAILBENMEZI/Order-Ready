@@ -29,13 +29,11 @@
         }
     </style>
 
-    @vite(['resources/js/store/store-setup.js'])
+    @vite(['resources/js/store/store-setup.js', 'resources/js/globalUtils/notifications.js'])
 </head>
 
 <body class="min-h-screen flex flex-col items-center py-12 px-4">
-    <div id="form-alert"
-        class="fixed top-6 left-1/2 -translate-x-1/2 hidden px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 transition-all duration-300">
-    </div>
+    @include('layouts.notifications')
 
     <div class="mb-10 text-center">
         <h2 class="text-xl font-black tracking-tighter text-slate-900">Order<span class="text-blue-600">Ready.</span>
@@ -108,7 +106,7 @@
                             class="w-full px-5 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:bg-white focus:border-blue-500 transition-all outline-none font-semibold text-slate-700"
                             placeholder="Casablanca, Morocco">
                         @error('location')
-                            <p class="text-red-500 text-xs font-bold mt-2 px-1">{{$message }}</p>
+                            <p class="text-red-500 text-xs font-bold mt-2 px-1">{{ $message }}</p>
                         @enderror
                     </div>
 

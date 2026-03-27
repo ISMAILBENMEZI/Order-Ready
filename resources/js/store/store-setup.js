@@ -13,22 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
         3: 'Store Branding'
     };
 
-    function showAlert(message, type = "error") {
-        const alertBox = document.getElementById("form-alert");
-        if (!alertBox) {
-            alert(message);
-            return;
-        }
-
-        alertBox.innerText = message;
-        alertBox.className = type === "error"
-            ? "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-red-100 text-red-700 border border-red-200"
-            : "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-emerald-100 text-emerald-700 border border-emerald-200";
-
-        alertBox.classList.remove("hidden");
-        setTimeout(() => alertBox.classList.add("hidden"), 5000);
-    }
-
     const validateStep = () => {
         if (currentStep === 1) {
             const name = document.querySelector('input[name="name"]').value.trim(); // تصحيح inpute و value
@@ -38,15 +22,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.querySelector('input[name="contact_phone"]').value.trim();
 
             if (!name || !description || !location || !email || !phone) {
-                showAlert("Please fill all information in Step 1.");
-                return false;
+                window.showAlert("Please fill all information in Step 1.", "error");
+                 return false;
             }
         }
 
         if (currentStep === 2) {
             const categories = document.querySelectorAll('input[name="categories[]"]:checked');
             if (categories.length === 0) {
-                showAlert("Please select at least one category.");
+                window.showAlert("Please select at least one category.", "error");
                 return false;
             }
         }
@@ -82,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-            if (validateStep()) { 
+            if (validateStep()) {
                 if (currentStep < totalSteps) {
                     currentStep++;
                     updateStep();
