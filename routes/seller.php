@@ -22,6 +22,5 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')
         Route::delete('/my-store/product/{product}', [StoreController::class, 'deleteProduct'])->name('store.delete-product');
 
         Route::get('/my-store/product/{product}/edit', [StoreController::class, 'editProduct'])->name('seller.store.edit-product');
-
-        Route::put('/my-store/product/{product}', [StoreController::class, 'updateProduct'])->name('seller.store.update-product');
+        Route::post('/seller/product/{id}/update', [StoreController::class, 'updateProduct'])->name('seller.product.update');
     });

@@ -18,7 +18,7 @@
             </div>
 
             <div class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-6 text-sm font-semibold text-gray-600">
-                <a href="#" class="hover:text-blue-600 transition">Home</a>
+                <a href="/" class="hover:text-blue-600 transition">Home</a>
                 <a href="#" class="hover:text-blue-600 transition">About</a>
                 <a href="{{ route('shop.products.index') }}" class="hover:text-blue-600 transition">Shop</a>
                 <a href="#" class="hover:text-blue-600 transition">Contact</a>
