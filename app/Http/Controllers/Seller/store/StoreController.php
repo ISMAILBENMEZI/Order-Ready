@@ -28,7 +28,6 @@ class StoreController extends Controller
         return view('seller.store.my-store', compact('products', 'store'));
     }
 
-
     public function createProduct()
     {
         $categories  = Category::all();
@@ -87,24 +86,6 @@ class StoreController extends Controller
                 'message' => 'Error: ' . $e->getMessage()
             ], 500);
         }
-    }
-
-    public function deleteProduct(Product $product)
-    {
-        if ($product->store->seller_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        foreach ($product->images as $image) {
-            $path = str_replace('/storage/', '', $image->image_url);
-            if (file_exists(public_path($image->image_url))) {
-                unlink(public_path($image->image_url));
-            }
-        }
-
-        $product->delete();
-
-        return response()->json(['message' => 'Product deleted successfully!']);
     }
 
     public function editProduct(Product $product)
@@ -194,5 +175,32 @@ class StoreController extends Controller
                 'trace' => $e->getTraceAsString()
             ], 500);
         }
+    }
+
+    public function deleteProduct(Product $product)
+    {
+        if ($product->store->seller_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
+        foreach ($product->images as $image) {
+            $path = str_replace('/storage/', '', $image->image_url);
+            if (file_exists(public_path($image->image_url))) {
+                unlink(public_path($image->image_url));
+            }
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully!']);
+    }
+
+    public function showProduct($id)
+    {
+        $product = Auth::user()->store->products()
+            ->with('category')
+            ->findOrFail($id);
+            
+        return view('seller.store.show-product', compact('product'));
     }
 }

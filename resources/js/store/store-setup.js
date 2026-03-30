@@ -13,6 +13,20 @@ document.addEventListener('DOMContentLoaded', () => {
         3: 'Store Branding'
     };
 
+    const Max_SIZE = 5 * 1024 * 1024;
+    const validateFileSize = (input) => {
+        const file = input.files[0];
+        if (file && file.size > Max_SIZE) {
+            window.showAlert("This file is too big! Please choose a file smaller than 8MB.", "error");
+            input.value = "";
+            return false;
+        }
+        return true;
+    };
+
+    document.getElementById('logo-input').addEventListener('change', function () { validateFileSize(this); });
+    document.getElementById('banner-input').addEventListener('change', function () { validateFileSize(this); });
+
     const validateStep = () => {
         if (currentStep === 1) {
             const name = document.querySelector('input[name="name"]').value.trim(); // تصحيح inpute و value
@@ -23,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!name || !description || !location || !email || !phone) {
                 window.showAlert("Please fill all information in Step 1.", "error");
-                 return false;
+                return false;
             }
         }
 

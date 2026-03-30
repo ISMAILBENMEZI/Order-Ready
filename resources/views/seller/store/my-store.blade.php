@@ -63,10 +63,10 @@
 
             <div class="max-w-7xl mx-auto px-4 md:px-8">
                 <div class="relative -mt-16 md:-mt-24 flex flex-col md:flex-row items-end md:items-center gap-6">
+
                     <div class="relative group">
                         <div
                             class="w-32 h-32 md:w-48 md:h-48 bg-white p-1.5 rounded-3xl shadow-2xl border-4 border-white overflow-hidden">
-
                             @if ($store->logo_url)
                                 <img src="{{ asset('storage/' . $store->logo_url) }}"
                                     class="w-full h-full object-cover rounded-2xl" alt="{{ $store->name }} Logo">
@@ -76,6 +76,12 @@
                                 </div>
                             @endif
                         </div>
+
+                        <a href="{{ route('seller.store.edit') }}"
+                            class="absolute -top-2 -right-2 bg-blue-600 text-white w-10 h-10 rounded-xl shadow-lg flex items-center justify-center hover:bg-blue-700 hover:scale-110 transition-all border-4 border-white active:scale-95"
+                            title="Edit Store Info">
+                            <i class="fa-solid fa-pen text-sm"></i>
+                        </a>
                     </div>
 
                     <div class="flex-grow pb-2">
@@ -86,10 +92,6 @@
                             <span
                                 class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-bold border border-blue-100">
                                 <i class="fa-solid fa-box mr-2"></i> {{ $products->total() }} Products
-                            </span>
-                            <span class="inline-flex items-center text-sm font-semibold text-gray-500">
-                                <i class="fa-solid fa-calendar-check mr-2 text-green-500"></i> Member since
-                                {{ $store->created_at->format('M Y') }}
                             </span>
                         </div>
                     </div>
@@ -121,7 +123,7 @@
                     <div id="product-{{ $product->id }}"
                         class="group product-card bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all flex flex-col">
 
-                        <a href="#" class="shine-effect relative block overflow-hidden bg-gray-50 aspect-square">
+                        <a href="{{ route('seller.store.show-product', $product->id) }}" class="shine-effect relative block overflow-hidden bg-gray-50 aspect-square">
                             <img src="{{ $product->primaryImage->image_url ?? asset('images/placeholder.jpg') }}"
                                 alt="{{ $product->name }}"
                                 class="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500">
@@ -199,3 +201,4 @@
 </body>
 
 </html>
+
