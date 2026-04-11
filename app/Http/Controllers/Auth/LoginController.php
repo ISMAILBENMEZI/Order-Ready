@@ -41,7 +41,7 @@ class LoginController extends Controller
             if (!$user->store()->exists()) {
                 return redirect()->route('seller.store.setup');
             }
-            return redirect()->route('seller.dashboard');
+            return redirect()->route('seller.store.index');
         }
 
         if ($role === 'admin') {

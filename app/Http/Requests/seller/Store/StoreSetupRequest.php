@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Store;
+namespace App\Http\Requests\Seller\Store;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -32,7 +32,7 @@ class StoreSetupRequest extends FormRequest
             'categories.*' => 'exists:categories,id',
 
             'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048|dimensions:min_width=200,min_height=200,max_width=1000,max_height=1000',
-            'banner' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096|dimensions:min_width=1200,min_height=300,max_width=3000,max_height=1000',
+            'banner' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120|dimensions:min_width=1200,min_height=300,max_width=3000,max_height=1000',
         ];
     }
 }

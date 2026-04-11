@@ -13,21 +13,19 @@ document.addEventListener('DOMContentLoaded', () => {
         3: 'Store Branding'
     };
 
-    function showAlert(message, type = "error") {
-        const alertBox = document.getElementById("form-alert");
-        if (!alertBox) {
-            alert(message);
-            return;
+    const Max_SIZE = 5 * 1024 * 1024;
+    const validateFileSize = (input) => {
+        const file = input.files[0];
+        if (file && file.size > Max_SIZE) {
+            window.showAlert("This file is too big! Please choose a file smaller than 8MB.", "error");
+            input.value = "";
+            return false;
         }
+        return true;
+    };
 
-        alertBox.innerText = message;
-        alertBox.className = type === "error"
-            ? "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-red-100 text-red-700 border border-red-200"
-            : "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-emerald-100 text-emerald-700 border border-emerald-200";
-
-        alertBox.classList.remove("hidden");
-        setTimeout(() => alertBox.classList.add("hidden"), 5000);
-    }
+    document.getElementById('logo-input').addEventListener('change', function () { validateFileSize(this); });
+    document.getElementById('banner-input').addEventListener('change', function () { validateFileSize(this); });
 
     const validateStep = () => {
         if (currentStep === 1) {
@@ -38,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const phone = document.querySelector('input[name="contact_phone"]').value.trim();
 
             if (!name || !description || !location || !email || !phone) {
-                showAlert("Please fill all information in Step 1.");
+                window.showAlert("Please fill all information in Step 1.", "error");
                 return false;
             }
         }
@@ -46,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentStep === 2) {
             const categories = document.querySelectorAll('input[name="categories[]"]:checked');
             if (categories.length === 0) {
-                showAlert("Please select at least one category.");
+                window.showAlert("Please select at least one category.", "error");
                 return false;
             }
         }
@@ -82,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (nextBtn) {
         nextBtn.addEventListener('click', () => {
-            if (validateStep()) { 
+            if (validateStep()) {
                 if (currentStep < totalSteps) {
                     currentStep++;
                     updateStep();

@@ -43,17 +43,20 @@
         <div>
             <h4 class="text-white font-bold mb-6 text-lg">Legal Info</h4>
             <ul class="space-y-4 text-sm font-medium">
-                <li><a href="#" class="hover:text-blue-400 transition-colors">Privacy Policy</a></li>
-                <li><a href="#" class="hover:text-blue-400 transition-colors">Terms of Service</a></li>
-                <li><a href="#" class="hover:text-blue-400 transition-colors">Safety Tips</a></li>
-                <li><a href="#" class="hover:text-blue-400 transition-colors">Contact Support</a></li>
+                <li><a href="{{ route('about') }}#privacy" class="hover:text-blue-400 transition-colors">Privacy
+                        Policy</a></li>
+                <li><a href="{{ route('about') }}#terms" class="hover:text-blue-400 transition-colors">Terms of
+                        Service</a></li>
+                <li><a href="{{ route('about') }}#safety" class="hover:text-blue-400 transition-colors">Safety Tips</a>
+                </li>
+                <li><a href="{{ route('contact') }}" class="hover:text-blue-400 transition-colors">Contact Support</a></li>
             </ul>
         </div>
 
         <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
             <h4 class="text-white font-bold mb-4 text-lg">Need Help?</h4>
             <p class="text-xs text-gray-400 mb-4">Our support team is available 24/7 for your questions.</p>
-            <a href="mailto:support@orderready.com"
+            <a href="{{ route('contact') }}"
                 class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 rounded-xl font-bold text-sm transition-all shadow-lg shadow-blue-900/20">
                 Email Support
             </a>

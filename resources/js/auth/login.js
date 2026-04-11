@@ -6,26 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const eyeClosed = document.getElementById("eye-closed");
     const alertBox = document.getElementById("form-alert");
 
-    const showAlert = (message, type = "error") => {
-        if (!alertBox) return;
-
-        alertBox.textContent = message;
-
-        if (type === "error") {
-            alertBox.className =
-                "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-red-100 text-red-700 border border-red-200";
-        } else {
-            alertBox.className =
-                "fixed top-6 left-1/2 -translate-x-1/2 px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 bg-emerald-100 text-emerald-700 border border-emerald-200";
-        }
-
-        alertBox.classList.remove("hidden");
-
-        setTimeout(() => {
-            alertBox.classList.add("hidden");
-        }, 5000);
-    };
-
     if (togglePasswordBtn && passwordInput) {
         togglePasswordBtn.addEventListener("click", () => {
             const isPassword = passwordInput.type === "password";
@@ -46,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!email) {
                 e.preventDefault();
-                showAlert("Email is required.");
+                window.showAlert("Email is required.", "error");
                 return;
             }
 
@@ -54,19 +34,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (!emailRegex.test(email)) {
                 e.preventDefault();
-                showAlert("Please enter a valid email address.");
+                window.showAlert("Please enter a valid email address.", "error");
                 return;
             }
 
             if (!password) {
                 e.preventDefault();
-                showAlert("Password is required.");
+                window.showAlert("Password is required.", "error");
                 return;
             }
 
             if (password.length < 6) {
                 e.preventDefault();
-                showAlert("Password must be at least 6 characters.");
+                window.showAlert("Password must be at least 6 characters.", "error");
                 return;
             }
         });

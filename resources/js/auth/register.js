@@ -27,13 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!name) {
             e.preventDefault();
-            showAlert("Name is required.");
+            window.showAlert("Name is required.", "error");
             return;
         }
 
         if (!email) {
             e.preventDefault();
-            showAlert("Email is required.");
+            window.showAlert("Email is required.", "error");
             return;
         }
 
@@ -41,31 +41,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!emailRegex.test(email)) {
             e.preventDefault();
-            showAlert("Please enter a valid email address.");
+            window.showAlert("Please enter a valid email address.", "error");
             return;
         }
 
         if (!password) {
             e.preventDefault();
-            showAlert("Password is required.");
+            window.showAlert("Password is required.", "error");
             return;
         }
 
         if (password.length < 6) {
             e.preventDefault();
-            showAlert("Password must be at least 6 characters.");
+            window.showAlert("Password must be at least 6 characters.", "error");
             return;
         }
 
         if (password !== password_confirmation) {
             e.preventDefault();
-            showAlert("Passwords do not match!");
+            window.showAlert("Passwords do not match!", "error");
             return;
         }
 
         if (!role) {
             e.preventDefault();
-            showAlert("Please select an account type.");
+            window.showAlert("Please select an account type.", "error");
             return;
         }
     });

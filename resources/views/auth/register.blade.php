@@ -7,21 +7,18 @@
     <title>Create Account - Order Ready</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    @vite(['resources/js/auth/register.js'])
+    @vite(['resources/js/auth/register.js','resources/js/globalUtils/notifications.js'])
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 </head>
 
 <body class="bg-slate-50 min-h-screen flex flex-col">
     @include('layouts.header')
+    @include('layouts.notifications')
 
     <main class="flex-grow flex items-center justify-center p-4 my-10">
 
         <div class="w-full max-w-lg bg-white shadow-2xl rounded-2xl overflow-hidden">
-
-            <div id="form-alert"
-                class="fixed top-6 left-1/2 -translate-x-1/2 hidden px-6 py-4 rounded-2xl shadow-xl text-sm font-bold z-50 transition-all duration-300">
-            </div>
 
             <div class="w-full p-8 md:p-10">
                 <div class="text-center mb-8">

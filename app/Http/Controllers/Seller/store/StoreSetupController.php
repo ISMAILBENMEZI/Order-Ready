@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Seller;
+namespace App\Http\Controllers\Seller\Store;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Store\StoreSetupRequest;
+use App\Http\Requests\Seller\Store\StoreSetupRequest;
 use App\Models\Category;
 use App\Models\Store;
 use Illuminate\Http\Request;
