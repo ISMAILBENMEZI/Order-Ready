@@ -18,9 +18,9 @@ return new class extends Migration
             $table->decimal('price',10,2);
             $table->decimal('discount_price',10,2)->nullable();
             $table->boolean('is_negotiable')->default(false);
+            $table->enum('status', ['available','negotiating','sold_out'])->default('available');
             $table->foreignId('store_id')->constrained('stores')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->enum('status',['pending','approved','rejected','sold'])->default('pending');
             $table->timestamps();
         });
     }

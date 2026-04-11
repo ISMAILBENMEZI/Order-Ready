@@ -47,7 +47,7 @@ class StoreController extends Controller
                 'discount_price' => $request->discount_price,
                 'is_negotiable' => $request->is_negotiable ?? false,
                 'category_id' => $request->category_id,
-                'status' => 'pending',
+                'status' => 'available',
             ]);
 
             if ($request->hasFile('primary_image')) {
@@ -83,7 +83,7 @@ class StoreController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error: ' . $e->getMessage()
+                'message' => 'Something went wrong while updating the status. Please try again later.'
             ], 500);
         }
     }
@@ -177,6 +177,19 @@ class StoreController extends Controller
         }
     }
 
+    public function updateProductSatatus(Request $request, Product $product)
+    {
+        $request->validate([
+            'status' => 'required|in:available,negotiating,sold_out',
+        ]);
+
+        $product->update([
+            'status' => $request->status
+        ]);
+
+        return back()->with('success', 'Status updated to ' . str_replace('_', ' ', $request->status) . 'successfully');
+    }
+
     public function deleteProduct(Product $product)
     {
         if ($product->store->seller_id !== Auth::id()) {
@@ -192,7 +205,7 @@ class StoreController extends Controller
 
         $product->delete();
 
-        return response()->json(['message' => 'Product deleted successfully!']);
+        return back()->with(['success', 'Product deleted successfully!']);
     }
 
     public function showProduct($id)
@@ -200,7 +213,7 @@ class StoreController extends Controller
         $product = Auth::user()->store->products()
             ->with('category')
             ->findOrFail($id);
-            
+
         return view('seller.store.show-product', compact('product'));
     }
 }

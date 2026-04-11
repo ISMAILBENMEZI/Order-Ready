@@ -80,7 +80,7 @@
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Home</a>
             <a href="{{ route('about') }}"
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">About</a>
-            <a href="#"
+            <a href="{{ route('shop.products.index') }}"
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Shop</a>
             <a href="{{ route('contact') }}"
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Contact</a>
