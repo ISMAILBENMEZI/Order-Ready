@@ -2,14 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explore Products</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    @include('layouts.head')
+
     @vite(['resources/js/globalUtils/notifications.js', 'resources/js/shop/products-loader.js'])
 
     <style>
@@ -103,7 +98,7 @@
                         <a href="{{ route('shop.products.index', ['sort' => 'latest'] + request()->query()) }}"
                             class="flex items-center px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-xl transition-colors duration-100">Latest
                             Arrivals</a>
-                        <a href="{{ route('shop.products.index' ,['sort' => 'rating'] + request()->query()) }}"
+                        <a href="{{ route('shop.products.index', ['sort' => 'rating'] + request()->query()) }}"
                             class="flex items-center justify-between px-4 py-2.5 text-sm font-bold text-blue-600 bg-blue-50 rounded-xl">
                             Top Rated
                             <i class="fa-solid fa-check text-[10px]"></i>

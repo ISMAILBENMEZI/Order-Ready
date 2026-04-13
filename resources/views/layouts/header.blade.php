@@ -2,22 +2,22 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center relative">
 
-            <div class="flex items-center gap-8">
-                <a href="/" class="flex items-center gap-3 group">
-                    <div
-                        class="relative w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-200 rotate-[-5deg] group-hover:rotate-0 transition-transform">
-                        <i class="fa-solid fa-box-open text-white text-xl"></i>
-                        <div
-                            class="absolute -top-1.5 -right-1.5 w-6 h-6 bg-blue-800 rounded-full flex items-center justify-center border-2 border-white text-white">
-                            <i class="fa-solid fa-check text-[10px]"></i>
-                        </div>
-                    </div>
-                    <div class="flex flex-col leading-none">
-                        <span class="text-xl font-black text-slate-900 tracking-tighter">ORDER</span>
-                        <span class="text-[10px] font-bold text-blue-600 tracking-[0.2em] uppercase">Ready</span>
-                    </div>
-                </a>
-            </div>
+<div class="flex items-center">
+    <a href="/" class="flex items-center gap-2 group">
+        <div class="w-11 h-11 flex items-center justify-center overflow-hidden">
+            <x-logo class="w-full h-full text-blue-600 object-contain" />
+        </div>
+
+        <div class="flex flex-col justify-center border-l border-slate-200 pl-2">
+            <span class="text-sm font-black text-slate-900 leading-none uppercase tracking-tighter">
+                Order
+            </span>
+            <span class="text-[8px] font-bold text-blue-600 leading-none uppercase tracking-wider">
+                Ready
+            </span>
+        </div>
+    </a>
+</div>
 
             <div
                 class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-6 text-sm font-semibold text-gray-600">

@@ -14,7 +14,8 @@ class Product extends Model
         'price',
         'discount_price',
         'is_negotiable',
-        'status'
+        'status',
+        'slug'
     ];
 
     public function store()
@@ -55,5 +56,10 @@ class Product extends Model
     public function reports()
     {
         return $this->hasMany(Report::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

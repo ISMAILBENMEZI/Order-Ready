@@ -76,6 +76,11 @@ class User extends Authenticatable
         return $this->hasMany(Subscription::class, 'seller_id');
     }
 
+    public function followedStores()
+    {
+        return $this->belongsToMany(Store::class, 'store_follower')->withTimestamps();
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 
 
@@ -42,6 +43,7 @@ class StoreController extends Controller
 
             $product = $store->products()->create([
                 'name' => $request->name,
+                'slug' => Str::slug($request->name) . '-'.uniqid(),
                 'description' => $request->description,
                 'price' => $request->price,
                 'discount_price' => $request->discount_price,
