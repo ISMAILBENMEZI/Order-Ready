@@ -15,7 +15,8 @@ class Store extends Model
         'location',
         'contact_email',
         'contact_phone',
-        'status'
+        'status',
+        'slug'
     ];
 
     public function seller()
@@ -31,5 +32,15 @@ class Store extends Model
     public function categories()
     {
         return $this->belongsToMany(Category::class, 'store_categories');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'store_follower')->withTimestamps();
     }
 }

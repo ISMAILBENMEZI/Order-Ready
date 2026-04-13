@@ -9,6 +9,8 @@ use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
 
 class StoreSetupController extends Controller
 {
@@ -56,6 +58,7 @@ class StoreSetupController extends Controller
             $store = Store::create([
                 'seller_id' => Auth::id(),
                 'name' => $data['name'],
+                'slug' => Str::slug($data['name'] . '-'.uniqid()),
                 'description' => $data['description'],
                 'location' => $data['location'],
                 'contact_email' => $data['contact_email'],

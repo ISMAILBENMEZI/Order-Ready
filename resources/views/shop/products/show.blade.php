@@ -2,14 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $product->name }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    @include('layouts.head')
+
     @vite(['resources/js/globalUtils/notifications.js'])
     <style>
         body {
@@ -282,7 +277,7 @@
                             <div>
                                 <p class="text-sm font-bold text-slate-700">Want to leave a review?</p>
                                 <p class="text-xs text-slate-500 mt-0.5">
-                                    <a href="#" class="text-blue-600 font-bold hover:underline">Sign in</a> to share
+                                    <a href="{{ route('auth.login') }}" class="text-blue-600 font-bold hover:underline">Sign in</a> to share
                                     your experience.
                                 </p>
                             </div>
@@ -296,7 +291,6 @@
 
                                 <div class="flex items-start justify-between gap-4 mb-3">
                                     <div class="flex items-center gap-3">
-                                        {{-- Avatar --}}
                                         <div
                                             class="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center flex-shrink-0 shadow-md shadow-blue-500/30">
                                             <span class="text-white text-xs font-bold">
@@ -337,10 +331,8 @@
                             </div>
                         @endforelse
                     </div>
-
                 </div>
             </div>
-
         </div>
     </main>
 
