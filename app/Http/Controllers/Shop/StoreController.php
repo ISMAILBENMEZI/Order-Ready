@@ -12,13 +12,13 @@ class StoreController extends Controller
 {
     public function show(Store $store, Request $request)
     {
-        $query = $store->products()->with('primaryImage','category');
+        $query = $store->products()->with('primaryImage', 'category');
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
 
-        if ($request->filled('category') && $request->categoty !== 'all') {
+        if ($request->filled('category') && $request->category !== 'all') {
             $query->where('category_id', $request->category);
         }
 
@@ -29,7 +29,7 @@ class StoreController extends Controller
             case 'price_desc':
                 $query->orderBy('price', 'desc');
                 break;
-            case 'rating':
+            case 'top_rated':
                 $query->withAvg('ratings', 'rating')->orderByDesc('ratings_avg_rating');
                 break;
             case 'latest':

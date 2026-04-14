@@ -210,7 +210,9 @@
                         class="h-12 w-full sm:w-auto flex items-center justify-between gap-2 px-5 bg-white border rounded-2xl text-sm font-semibold shadow-sm transition-all duration-200 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 min-w-[150px]">
                         <span class="flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-blue-500 text-xs"></i>
-                            {{ request('category') ? request('category') : 'All Categories' }}
+                            {{ request('category')
+                                ? $categories->firstWhere('id', request('category'))?->name ?? 'All Categories'
+                                : 'All Categories' }}
                         </span>
                         <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition-transform duration-200"
                             :class="open ? 'rotate-180' : ''"></i>
@@ -229,10 +231,11 @@
                             @endif
                         </a>
                         @foreach ($categories ?? [] as $category)
-                            <a href="{{ request()->fullUrlWithQuery(['category' => $category->name, 'page' => null]) }}"
-                                class="flex items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-colors {{ request('category') === $category->name ? 'font-bold text-blue-600 bg-blue-50' : 'font-medium text-slate-600 hover:bg-slate-50' }}">
+                            <a href="{{ request()->fullUrlWithQuery(['category' => $category->id, 'page' => null]) }}"
+                                class="flex items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-colors 
+               {{ request('category') == $category->id ? 'font-bold text-blue-600 bg-blue-50' : 'font-medium text-slate-600 hover:bg-slate-50' }}">
                                 {{ $category->name }}
-                                @if (request('category') === $category->name)
+                                @if (request('category') == $category->id)
                                     <i class="fa-solid fa-check text-[10px]"></i>
                                 @endif
                             </a>
