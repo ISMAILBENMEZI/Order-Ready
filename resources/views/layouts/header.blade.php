@@ -2,22 +2,22 @@
     <div class="max-w-7xl mx-auto px-4">
         <div class="flex justify-between items-center relative">
 
-<div class="flex items-center">
-    <a href="/" class="flex items-center gap-2 group">
-        <div class="w-11 h-11 flex items-center justify-center overflow-hidden">
-            <x-logo class="w-full h-full text-blue-600 object-contain" />
-        </div>
+            <div class="flex items-center">
+                <a href="/" class="flex items-center gap-2 group">
+                    <div class="w-11 h-11 flex items-center justify-center overflow-hidden">
+                        <x-logo class="w-full h-full text-blue-600 object-contain" />
+                    </div>
 
-        <div class="flex flex-col justify-center border-l border-slate-200 pl-2">
-            <span class="text-sm font-black text-slate-900 leading-none uppercase tracking-tighter">
-                Order
-            </span>
-            <span class="text-[8px] font-bold text-blue-600 leading-none uppercase tracking-wider">
-                Ready
-            </span>
-        </div>
-    </a>
-</div>
+                    <div class="flex flex-col justify-center border-l border-slate-200 pl-2">
+                        <span class="text-sm font-black text-slate-900 leading-none uppercase tracking-tighter">
+                            Order
+                        </span>
+                        <span class="text-[8px] font-bold text-blue-600 leading-none uppercase tracking-wider">
+                            Ready
+                        </span>
+                    </div>
+                </a>
+            </div>
 
             <div
                 class="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-6 text-sm font-semibold text-gray-600">

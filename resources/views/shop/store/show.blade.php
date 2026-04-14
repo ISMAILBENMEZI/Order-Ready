@@ -28,6 +28,7 @@
 <body class="bg-slate-100 min-h-screen flex flex-col">
 
     @include('layouts.header')
+    @include('layouts.notifications')
 
     <main class="flex-grow">
 
@@ -324,7 +325,13 @@
                                         x-transition:enter-start="opacity-0 scale-95"
                                         x-transition:enter-end="opacity-100 scale-100" style="display:none;"
                                         class="absolute top-9 right-0 w-40 bg-white border border-slate-200 rounded-2xl shadow-xl z-[100] overflow-hidden p-1.5">
+
                                         <a href="#"
+                                            class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
+                                            <i class="fa-solid fa-bookmark text-indigo-400 w-3.5 text-center"></i>
+                                            Favorite
+                                        </a>
+                                        <a href="{{ route('shop.products.show', $product) }}#rating"
                                             class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
                                             <i class="fa-solid fa-star text-amber-400 w-3.5 text-center"></i> Rating
                                         </a>

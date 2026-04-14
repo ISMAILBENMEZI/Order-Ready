@@ -12,6 +12,8 @@ Route::prefix('shop')->name('shop.')->group(function () {
 });
 
 Route::middleware(['auth', 'role:seller,admin,customer'])->prefix('shop')->name('shop.')->group(function () {
-    Route::post('/products/{product}/review', [ProductController::class, 'storeReview'])->name('products.review');
+    Route::post('/products/{product}/review', [StoreController::class, 'storeReview'])->name('products.review');
     Route::post('store/{store:slug}/follow', [StoreController::class, 'toggleFollow'])->name('stores.follow');
+    
+    Route::post('/products/{product}/report',[StoreController::class, 'report'])->name('product.reports');
 });

@@ -41,11 +41,13 @@
         <div class="max-w-7xl mx-auto px-5 sm:px-8 py-10">
 
             <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 mb-8">
-                <a href="#" class="hover:text-blue-600 transition-colors">Home</a>
+                <a href="{{ route('home') }}" class="hover:text-blue-600 transition-colors">Home</a>
                 <i class="fa-solid fa-chevron-right text-[9px]"></i>
-                <a href="#" class="hover:text-blue-600 transition-colors">Shop</a>
+                <a href="{{ route('shop.products.index') }}" class="hover:text-blue-600 transition-colors">Shop</a>
                 <i class="fa-solid fa-chevron-right text-[9px]"></i>
                 <span class="text-slate-600 truncate max-w-[200px]">{{ $product->name }}</span>
+                <i class="fa-solid fa-chevron-right text-[9px]"></i>
+                <a href="{{ url()->previous() }}">Back</a>
             </nav>
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
@@ -158,7 +160,7 @@
                             <p class="text-sm font-bold text-slate-800 truncate">
                                 {{ $product->store->name ?? 'Unknown Store' }}</p>
                         </div>
-                        <a href="#"
+                        <a href="{{ $product->store ? route('shop.stores.show', $product->store) : '#' }}"
                             class="text-xs font-bold text-blue-600 hover:text-blue-700 flex-shrink-0 hover:underline">
                             Visit Store <i class="fa-solid fa-arrow-right text-[9px] ml-1"></i>
                         </a>
@@ -180,11 +182,97 @@
                                 style="display:none;"></i>
                         </button>
 
-                        <button
-                            class="w-13 h-13 p-3.5 flex items-center justify-center bg-white border border-slate-200 rounded-2xl text-slate-400 hover:border-red-300 hover:text-red-500 hover:bg-red-50 transition-all duration-200 active:scale-90 shadow-sm"
-                            title="Report">
-                            <i class="fa-solid fa-flag text-sm"></i>
-                        </button>
+                        <div x-data="{ open:{{ request('report') ? 'true' : false }} }">
+                            <button @click="open = true"
+                                class="w-13 h-13 p-3.5 flex items-center justify-center bg-white border border-slate-200 rounded-2xl text-slate-400 hover:border-red-300 hover:text-red-500 hover:bg-red-50 transition-all duration-200 active:scale-95 shadow-sm"
+                                title="Report">
+                                <i class="fa-solid fa-flag text-sm"></i>
+                            </button>
+
+                            <div x-show="open" class="fixed inset-0 z-[100] flex items-center justify-center p-4"
+                                style="display: none;">
+
+                                <div x-show="open" x-transition:enter="ease-out duration-300"
+                                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                    x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
+                                    x-transition:leave-end="opacity-0"
+                                    class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
+
+                                <div x-show="open" x-transition:enter="ease-out duration-300"
+                                    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+                                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                                    x-transition:leave="ease-in duration-200"
+                                    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                                    x-transition:leave-end="opacity-0 scale-95 translate-y-4"
+                                    @click.outside="open = false"
+                                    class="relative bg-white w-full max-w-md overflow-hidden rounded-[24px] shadow-2xl ring-1 ring-slate-200">
+
+                                    <div
+                                        class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                            <span
+                                                class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
+                                                <i class="fa-solid fa-circle-exclamation text-sm"></i>
+                                            </span>
+                                            Report this product
+                                        </h2>
+                                        <button @click="open = false"
+                                            class="text-slate-400 hover:text-slate-600 transition-colors">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </button>
+                                    </div>
+
+                                    <form method="POST" action="{{ route('shop.product.reports', $product) }}"
+                                        class="p-6">
+                                        @csrf
+
+                                        <div class="space-y-4">
+                                            <div>
+                                                <label class="block mb-1.5 text-sm font-semibold text-slate-700">Reason
+                                                    for reporting</label>
+                                                <div class="relative">
+                                                    <select name="reason" required
+                                                        class="w-full bg-slate-50 border border-slate-200 text-slate-600 text-sm rounded-xl focus:ring-4 focus:ring-red-50 focus:border-red-400 block p-3 appearance-none transition-all outline-none">
+                                                        <option value="">Select a reason</option>
+                                                        <option value="spam">Spam</option>
+                                                        <option value="scam">Scam</option>
+                                                        <option value="fake_product">Fake product</option>
+                                                        <option value="inappropriate_content">Inappropriate content
+                                                        </option>
+                                                        <option value="other">Other</option>
+                                                    </select>
+                                                    <div
+                                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
+                                                        <i class="fa-solid fa-chevron-down text-[10px]"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <label
+                                                    class="block mb-1.5 text-sm font-semibold text-slate-700">Details
+                                                    (optional)</label>
+                                                <textarea name="description" rows="4"
+                                                    class="w-full bg-slate-50 border border-slate-200 text-slate-600 text-sm rounded-xl focus:ring-4 focus:ring-red-50 focus:border-red-400 block p-3 transition-all outline-none resize-none"
+                                                    placeholder="Please provide more information..."></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-3 mt-8">
+                                            <button type="button" @click="open = false"
+                                                class="flex-1 px-4 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all active:scale-95">
+                                                Cancel
+                                            </button>
+
+                                            <button type="submit"
+                                                class="flex-[2] px-4 py-3 text-sm font-bold text-white bg-red-600 hover:bg-red-700 shadow-lg shadow-red-200 rounded-xl transition-all active:scale-95">
+                                                Submit Report
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
@@ -237,13 +325,13 @@
                     </div>
                 </div>
 
-                <div class="lg:col-span-2 flex flex-col gap-5">
+                <div class="lg:col-span-2 flex flex-col gap-5" id="rating">
 
                     <h2 class="text-xl font-extrabold text-slate-900">Customer Reviews</h2>
 
                     @auth
-                        <form method="POST" action="{{ route('shop.products.review', $product) }}" x-data="{ rating: 5, hovering: 0 }"
-                            class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
+                        <form method="POST" action="{{ route('shop.products.review', $product) }}"
+                            x-data="{ rating: 5, hovering: 0 }" class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
                             @csrf
                             <h3 class="text-sm font-bold text-slate-700 mb-4">Write a Review</h3>
 
@@ -277,7 +365,8 @@
                             <div>
                                 <p class="text-sm font-bold text-slate-700">Want to leave a review?</p>
                                 <p class="text-xs text-slate-500 mt-0.5">
-                                    <a href="{{ route('auth.login') }}" class="text-blue-600 font-bold hover:underline">Sign in</a> to share
+                                    <a href="{{ route('auth.login') }}"
+                                        class="text-blue-600 font-bold hover:underline">Sign in</a> to share
                                     your experience.
                                 </p>
                             </div>
