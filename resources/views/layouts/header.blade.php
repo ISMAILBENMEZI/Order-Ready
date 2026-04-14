@@ -51,12 +51,39 @@
 
                         <div x-show="profileMenu" x-transition
                             class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50"><i
-                                    class="fa-regular fa-user mr-2"></i> Profile</a>
+                            <a href="#"
+                                class="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
+                                <div class="mr-3 w-5 text-center transition-transform group-hover:scale-110">
+                                    <i class="fa-regular fa-circle-user text-slate-400 group-hover:text-blue-500"></i>
+                                </div>
+                                <span class="font-medium">Profile</span>
+                            </a>
+
+                            <a href="{{ route('products.favorites.index') }}"
+                                class="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-red-50 transition-colors">
+                                <div class="mr-3 w-5 text-center transition-transform group-hover:scale-110">
+                                    <i class="fa-regular fa-heart text-slate-400 group-hover:text-red-500"></i>
+                                </div>
+                                <span class="font-medium group-hover:text-red-600">Favorites</span>
+                            </a>
+
                             @if (Auth::user()->role->name === 'seller')
                                 <a href="{{ route('seller.store.index') }}"
-                                    class="block px-4 py-2 text-sm text-blue-600 font-bold hover:bg-blue-50"><i
-                                        class="fa-solid fa-store mr-2"></i> My Store</a>
+                                    class="group flex items-center px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 transition-all duration-200">
+
+                                    <div
+                                        class="mr-3 w-5 text-center transition-transform duration-200 group-hover:scale-110">
+                                        <i class="fa-solid fa-store text-slate-400 group-hover:text-blue-500"></i>
+                                    </div>
+
+                                    <span
+                                        class="font-medium transition-colors duration-200 group-hover:text-blue-600 group-hover:font-bold">
+                                        My Store
+                                    </span>
+
+                                    <i
+                                        class="fa-solid fa-chevron-right ml-auto text-[10px] text-blue-400 opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"></i>
+                                </a>
                             @endif
                             <hr class="my-2 border-gray-100">
                             <form method="POST" action="{{ route('logout') }}">
