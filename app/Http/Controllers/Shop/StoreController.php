@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Favorite;
 use App\Models\Product;
 use App\Models\Rating;
 use App\Models\Report;
@@ -97,5 +98,25 @@ class StoreController extends Controller
         );
 
         return back()->with('success', 'Review saved successfully.');
+    }
+
+    public function toggleFavorite(Product $product)
+    {
+        $userId = Auth::id();
+
+        $favorite = Favorite::where('user_id', $userId)
+            ->where('product_id', $product->id)
+            ->first();
+
+        if ($favorite) {
+            $favorite->delete();
+            return back()->with('success', 'Remove form favorite');
+        }
+
+        Favorite::create([
+            'user_id' => $userId,
+            'product_id' => $product->id,
+        ]);
+        return back()->with('success', 'added to favorites');
     }
 }

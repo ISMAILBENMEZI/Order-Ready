@@ -4,8 +4,7 @@
 <head>
     <title>Explore Products</title>
     @include('layouts.head')
-
-    @vite(['resources/js/globalUtils/notifications.js', 'resources/js/shop/products-loader.js'])
+    @vite(['resources/js/shop/products-loader.js'])
 
     <style>
         body {

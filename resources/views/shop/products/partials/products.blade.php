@@ -34,15 +34,28 @@
                     style="display: none;"
                     class="absolute top-10 right-0 w-40 bg-white border border-slate-200 rounded-2xl shadow-xl z-[100] overflow-hidden p-1.5">
 
-                    <a href="#"
-                        class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
-                        <i class="fa-solid fa-bookmark text-indigo-400 w-3.5 text-center"></i> Favorite
-                    </a>
+                    <form method="POST" action="{{ route('products.favorite', $product) }}">
+                        @csrf
+                        <button type="submit"
+                            class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl transition-all duration-200 
+                                                {{ Auth::user()->favorites->contains($product->id)
+                                                    ? 'bg-indigo-50 text-indigo-700'
+                                                    : 'text-slate-600 hover:bg-slate-50' }}">
+
+                            @if (Auth::user()->favorites->contains($product->id))
+                                <i class="fa-solid fa-bookmark text-indigo-600 w-3.5 text-center"></i>
+                                <span>Favorited</span>
+                            @else
+                                <i class="fa-regular fa-bookmark text-indigo-400 w-3.5 text-center"></i>
+                                <span>Add to Favorite</span>
+                            @endif
+                        </button>
+                    </form>
                     <a href="{{ route('shop.products.show', $product) }}#rating"
                         class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
                         <i class="fa-solid fa-star text-amber-400 w-3.5 text-center"></i> Rating
                     </a>
-                    <a href="{{ route('shop.products.show',$product->slug) }}?report=1"
+                    <a href="{{ route('shop.products.show', $product->slug) }}?report=1"
                         class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
                         <i class="fa-solid fa-flag text-red-400 w-3.5 text-center"></i> Report
                     </a>

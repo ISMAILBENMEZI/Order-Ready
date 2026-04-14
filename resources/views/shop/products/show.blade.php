@@ -4,8 +4,6 @@
 <head>
     <title>{{ $product->name }}</title>
     @include('layouts.head')
-
-    @vite(['resources/js/globalUtils/notifications.js'])
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -222,7 +220,7 @@
                                         </button>
                                     </div>
 
-                                    <form method="POST" action="{{ route('shop.product.reports', $product) }}"
+                                    <form method="POST" action="{{ route('product.reports', $product) }}"
                                         class="p-6">
                                         @csrf
 
@@ -330,7 +328,7 @@
                     <h2 class="text-xl font-extrabold text-slate-900">Customer Reviews</h2>
 
                     @auth
-                        <form method="POST" action="{{ route('shop.products.review', $product) }}"
+                        <form method="POST" action="{{ route('products.review', $product) }}"
                             x-data="{ rating: 5, hovering: 0 }" class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
                             @csrf
                             <h3 class="text-sm font-bold text-slate-700 mb-4">Write a Review</h3>

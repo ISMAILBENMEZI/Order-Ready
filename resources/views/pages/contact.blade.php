@@ -4,8 +4,6 @@
 <head>
     <title>Contact Support - Order Ready</title>
     @include('layouts.head')
-    @vite(['resources/js/globalUtils/notifications.js'])
-
 </head>
 
 <body class="bg-white text-slate-900 antialiased">

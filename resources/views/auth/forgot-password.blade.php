@@ -8,6 +8,7 @@
 
 <body class="bg-slate-50 min-h-screen flex flex-col">
     @include('layouts.header')
+    @include('layouts.notifications')
 
 
     <main class="flex-grow flex items-center justify-center p-4">

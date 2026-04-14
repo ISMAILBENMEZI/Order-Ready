@@ -11,9 +11,9 @@ Route::prefix('shop')->name('shop.')->group(function () {
     Route::get('/stores/{store:slug}', [StoreController::class, 'show'])->name('stores.show');
 });
 
-Route::middleware(['auth', 'role:seller,admin,customer'])->prefix('shop')->name('shop.')->group(function () {
+Route::middleware(['auth', 'role:seller,admin,customer'])->group(function () {
     Route::post('/products/{product}/review', [StoreController::class, 'storeReview'])->name('products.review');
-    Route::post('store/{store:slug}/follow', [StoreController::class, 'toggleFollow'])->name('stores.follow');
-    
-    Route::post('/products/{product}/report',[StoreController::class, 'report'])->name('product.reports');
+    Route::post('/store/{store:slug}/follow', [StoreController::class, 'toggleFollow'])->name('stores.follow');
+    Route::post('/products/{product}/report', [StoreController::class, 'report'])->name('product.reports');
+    Route::post('/products/{product}/favorite', [StoreController::class, 'toggleFavorite'])->name('products.favorite');
 });

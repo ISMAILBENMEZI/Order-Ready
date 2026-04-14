@@ -4,7 +4,7 @@
 <head>
     <title>Login - Order Ready</title>
     @include('layouts.head')
-    @vite(['resources/js/auth/login.js','resources/js/globalUtils/notifications.js'])
+    @vite(['resources/js/auth/login.js'])
 </head>
 
 <body class="bg-slate-50 min-h-screen flex flex-col">
