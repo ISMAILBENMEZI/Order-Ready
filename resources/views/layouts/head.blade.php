@@ -13,4 +13,4 @@
 <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
 
- @vite(['resources/js/globalUtils/notifications.js'])
+@vite(['resources/js/globalUtils/notifications.js'])

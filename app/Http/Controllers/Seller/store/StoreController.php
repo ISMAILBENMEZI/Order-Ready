@@ -43,7 +43,7 @@ class StoreController extends Controller
 
             $product = $store->products()->create([
                 'name' => $request->name,
-                'slug' => Str::slug($request->name) . '-'.uniqid(),
+                'slug' => Str::slug($request->name) . '-' . uniqid(),
                 'description' => $request->description,
                 'price' => $request->price,
                 'discount_price' => $request->discount_price,
@@ -165,6 +165,8 @@ class StoreController extends Controller
                 }
             }
 
+            session()->flash('success', 'Product updated successfully!');
+            
             return response()->json([
                 'success' => true,
                 'redirect' => route('seller.store.index'),
@@ -207,7 +209,7 @@ class StoreController extends Controller
 
         $product->delete();
 
-        return back()->with(['success', 'Product deleted successfully!']);
+        return back()->with('success', 'Product deleted successfully!');
     }
 
     public function showProduct($id)

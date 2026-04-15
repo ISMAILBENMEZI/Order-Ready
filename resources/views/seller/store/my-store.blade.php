@@ -2,15 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Store — Product Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    @include('layouts.head')
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -205,7 +199,7 @@
                                         class="absolute top-9 left-0 w-48 bg-white rounded-2xl shadow-xl border border-slate-200 p-1.5 z-50">
                                         @foreach (['available' => ['label' => 'Available in stock', 'dot' => 'bg-emerald-500'], 'negotiating' => ['label' => 'Negotiating', 'dot' => 'bg-blue-500'], 'sold_out' => ['label' => 'Sold Out', 'dot' => 'bg-red-500']] as $key => $val)
                                             <form
-                                                action="{{ route('seller.store.product.update-status', $product->id) }}"
+                                                action="{{ route('seller.store.product.update-status', $product) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('PATCH')
@@ -258,12 +252,12 @@
                                 </div>
 
                                 <div class="mt-auto grid grid-cols-2 gap-2 pt-4 border-t border-slate-100">
-                                    <a href="{{ route('seller.store.edit-product', $product->id) }}"
+                                    <a href="{{ route('seller.store.edit-product', $product) }}"
                                         class="flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 text-slate-600 text-xs font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all duration-200 active:scale-95">
                                         <i class="fa-solid fa-pen text-[10px]"></i> Edit
                                     </a>
 
-                                    <form action="{{ route('seller.store.delete-product', $product->id) }}"
+                                    <form action="{{ route('seller.store.delete-product', $product) }}"
                                         method="POST" onsubmit="return confirm('Are you sure?')">
                                         @csrf
                                         @method('DELETE')

@@ -119,7 +119,7 @@
 
             @if ($products->hasMorePages())
                 <div class="text-center mt-16 mb-12">
-                    <button id="load-more-btn" data-url="#"
+                    <button id="load-more-btn" data-url="{{ $products->nextPageUrl() }}"
                         class="inline-flex items-center gap-2.5 px-10 py-3.5 bg-white border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 shadow-sm transition-all duration-200 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 hover:ring-4 hover:ring-blue-500/10 active:scale-95">
                         <i class="fa-solid fa-plus text-[11px]"></i>
                         Explore More Products
