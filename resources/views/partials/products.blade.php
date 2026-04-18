@@ -107,10 +107,10 @@
             </div>
 
             <div class="flex items-center gap-2 mt-auto">
-                <button
+                <a href="{{ route('chat.index', ['user' => $product->store->seller_id, 'product' => $product->id]) }}"
                     class="flex-1 flex items-center justify-center gap-2 h-11 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-blue-600 transition-colors duration-200 active:scale-95">
                     <i class="fa-solid fa-paper-plane text-[11px]"></i> Message
-                </button>
+                </a>
                 <button
                     class="w-11 h-11 flex items-center justify-center border border-slate-200 text-slate-300 rounded-xl hover:bg-pink-50 hover:text-pink-500 hover:border-pink-200 transition-all duration-200 active:scale-90">
                     <i class="fa-solid fa-heart text-[14px]"></i>

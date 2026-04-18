@@ -26,10 +26,7 @@
                 <a href="{{ route('shop.products.index') }}" class="hover:text-blue-600 transition">Shop</a>
                 <a href="{{ route('contact') }}" class="hover:text-blue-600 transition">Contact</a>
                 <a href="{{ route('chat.inbox') }}"
-                    class="relative group flex items-center gap-1.5 hover:text-blue-600 transition">
-                    <i class="fa-solid fa-comment-dots text-slate-400 group-hover:text-blue-600 transition"></i>
-                    <span>Messages</span>
-                </a>
+                    class="hover:text-blue-600 transition">Messages</a>
             </div>
 
             <div class="flex items-center gap-4">
@@ -116,6 +113,8 @@
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Shop</a>
             <a href="{{ route('contact') }}"
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Contact</a>
+            <a href="{{ route('chat.inbox') }}"
+                class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Messages</a>
 
             @guest
                 <div class="grid grid-cols-2 gap-4 pt-4">

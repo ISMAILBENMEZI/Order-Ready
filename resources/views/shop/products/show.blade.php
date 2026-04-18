@@ -165,11 +165,10 @@
                     </div>
 
                     <div class="flex gap-3">
-                        <button
-                            class="flex-1 flex items-center justify-center gap-2.5 h-13 py-3.5 bg-slate-900 text-white rounded-2xl text-sm font-bold hover:bg-blue-600 transition-colors duration-200 active:scale-95 shadow-sm">
-                            <i class="fa-solid fa-paper-plane text-xs"></i>
-                            Message Seller
-                        </button>
+                        <a href="{{ route('chat.index', ['user' => $product->store->seller_id, 'product' => $product->id]) }}"
+                            class="flex-1 flex items-center justify-center gap-2 h-11 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-blue-600 transition-colors duration-200 active:scale-95">
+                            <i class="fa-solid fa-paper-plane text-[11px]"></i> Message
+                        </a>
 
                         <button x-data="{ copied: false }"
                             @click="navigator.clipboard?.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 2000)"
@@ -180,7 +179,7 @@
                                 style="display:none;"></i>
                         </button>
 
-                        <div x-data="{ open:{{ request('report') ? 'true' : false }} }">
+                        <div x-data="{ open: {{ request('report') ? 'true' : false }} }">
                             <button @click="open = true"
                                 class="w-13 h-13 p-3.5 flex items-center justify-center bg-white border border-slate-200 rounded-2xl text-slate-400 hover:border-red-300 hover:text-red-500 hover:bg-red-50 transition-all duration-200 active:scale-95 shadow-sm"
                                 title="Report">
@@ -328,8 +327,8 @@
                     <h2 class="text-xl font-extrabold text-slate-900">Customer Reviews</h2>
 
                     @auth
-                        <form method="POST" action="{{ route('products.review', $product) }}"
-                            x-data="{ rating: 5, hovering: 0 }" class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
+                        <form method="POST" action="{{ route('products.review', $product) }}" x-data="{ rating: 5, hovering: 0 }"
+                            class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
                             @csrf
                             <h3 class="text-sm font-bold text-slate-700 mb-4">Write a Review</h3>
 

@@ -4,8 +4,14 @@
 <head>
     <title>Explore Products</title>
     @include('layouts.head')
-    @vite(['resources/js/shop/products-loader.js'])
-
+    <script>
+        window.chatConfig = {
+            fetchUrl: "{{ route('chat.fetch', $user->id) }}",
+            storeUrl: "{{ route('chat.store', $user->id) }}",
+            csrfToken: "{{ csrf_token() }}"
+        };
+    </script>
+    @vite(['resources/js/chat/chat.js'])
 </head>
 
 <body>
@@ -21,6 +27,16 @@
                 <p class="text-[10px] text-emerald-500 font-bold uppercase tracking-widest">Online</p>
             </div>
         </div>
+        @if (isset($product))
+            <div class="flex items-center gap-3 p-3 mb-4 bg-blue-50 border border-blue-100 rounded-2xl">
+                <img src="{{ $product->primaryImage->image_url }}" class="w-12 h-12 object-cover rounded-lg">
+                <div class="flex-grow">
+                    <h4 class="text-xs font-bold text-slate-800">{{ $product->name }}</h4>
+                    <p class="text-[10px] text-blue-600 font-bold">${{ number_format($product->price, 2) }}</p>
+                </div>
+                <span class="text-[9px] bg-blue-600 text-white px-2 py-1 rounded-md font-black uppercase">Inquiry</span>
+            </div>
+        @endif
 
         <div id="chat-box"
             class="h-[400px] overflow-y-auto mb-6 p-4 flex flex-col gap-4 bg-slate-50 rounded-2xl border border-inner border-slate-100">
@@ -30,9 +46,11 @@
         <form id="chat-form" class="flex gap-3">
             @csrf
             <input type="hidden" name="receiver_id" value="{{ $user->id }}">
-            <input type="text" name="message" id="message-input" required
+            <input type="text" name="message" id="message-input" required value="{{ $initialMessage ?? '' }}"
                 class="flex-grow bg-slate-100 border-none rounded-2xl px-5 py-3 text-sm focus:ring-2 focus:ring-blue-500 transition-all"
                 placeholder="Write your message here...">
+
+            <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
 
             <button type="submit"
                 class="bg-blue-600 text-white px-6 py-3 rounded-2xl font-black text-xs uppercase hover:bg-blue-700 transition-all active:scale-95">
@@ -41,37 +59,6 @@
         </form>
     </main>
     @include('layouts.footer')
-    <script>
-        // إرسال الرسالة عبر AJAX لمنع اهتزاز الصفحة
-        document.getElementById('chat-form').onsubmit = function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-
-            fetch("{{ route('chat.store') }}", {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            }).then(() => {
-                document.getElementById('message-input').value = '';
-                loadMessages(); // تحديث فوري بعد الإرسال
-            });
-        };
-
-        function loadMessages() {
-            fetch("{{ route('chat.fetch', $user->id) }}")
-                .then(res => res.text())
-                .then(data => {
-                    const chatBox = document.getElementById("chat-box");
-                    chatBox.innerHTML = data;
-                    chatBox.scrollTop = chatBox.scrollHeight; // التمرير لأسفل تلقائياً
-                });
-        }
-
-        setInterval(loadMessages, 3000); // تحديث كل 3 ثوانٍ
-    </script>
-
 </body>
 
 </html>
