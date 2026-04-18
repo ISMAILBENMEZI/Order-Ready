@@ -28,6 +28,7 @@
 <body class="bg-slate-100 min-h-screen flex flex-col">
 
     @include('layouts.header')
+    @include('layouts.notifications')
 
     <main class="flex-grow">
 
@@ -102,6 +103,11 @@
                                 </div>
 
                                 <div class="flex items-center gap-2 flex-shrink-0">
+                                    <a href="{{ route('chat.index', $store->user_id) }}"
+                                        class="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-100 transition-all active:scale-95">
+                                        <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                                        Send Message to Seller
+                                    </a>
                                     <button x-data="{ copied: false }"
                                         @click="navigator.clipboard?.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 3000)"
                                         class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 active:scale-95">
@@ -113,7 +119,7 @@
                                     </button>
 
                                     @auth
-                                        <form action="{{ route('shop.stores.follow', $store->slug) }}" method="POST">
+                                        <form action="{{ route('stores.follow', $store->slug) }}" method="POST">
                                             @csrf
                                             <button type="submit"
                                                 class="flex items-center gap-1.5 px-4 py-2 rounded-xl font-bold text-xs transition-all duration-200
@@ -210,7 +216,9 @@
                         class="h-12 w-full sm:w-auto flex items-center justify-between gap-2 px-5 bg-white border rounded-2xl text-sm font-semibold shadow-sm transition-all duration-200 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 min-w-[150px]">
                         <span class="flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-blue-500 text-xs"></i>
-                            {{ request('category') ? request('category') : 'All Categories' }}
+                            {{ request('category')
+                                ? $categories->firstWhere('id', request('category'))?->name ?? 'All Categories'
+                                : 'All Categories' }}
                         </span>
                         <i class="fa-solid fa-chevron-down text-[10px] text-slate-400 transition-transform duration-200"
                             :class="open ? 'rotate-180' : ''"></i>
@@ -229,10 +237,11 @@
                             @endif
                         </a>
                         @foreach ($categories ?? [] as $category)
-                            <a href="{{ request()->fullUrlWithQuery(['category' => $category->name, 'page' => null]) }}"
-                                class="flex items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-colors {{ request('category') === $category->name ? 'font-bold text-blue-600 bg-blue-50' : 'font-medium text-slate-600 hover:bg-slate-50' }}">
+                            <a href="{{ request()->fullUrlWithQuery(['category' => $category->id, 'page' => null]) }}"
+                                class="flex items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-colors 
+               {{ request('category') == $category->id ? 'font-bold text-blue-600 bg-blue-50' : 'font-medium text-slate-600 hover:bg-slate-50' }}">
                                 {{ $category->name }}
-                                @if (request('category') === $category->name)
+                                @if (request('category') == $category->id)
                                     <i class="fa-solid fa-check text-[10px]"></i>
                                 @endif
                             </a>
@@ -321,11 +330,31 @@
                                         x-transition:enter-start="opacity-0 scale-95"
                                         x-transition:enter-end="opacity-100 scale-100" style="display:none;"
                                         class="absolute top-9 right-0 w-40 bg-white border border-slate-200 rounded-2xl shadow-xl z-[100] overflow-hidden p-1.5">
-                                        <a href="#"
+
+                                        <form method="POST" action="{{ route('products.favorite', $product) }}">
+                                            @csrf
+                                            <button type="submit"
+                                                class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl transition-all duration-200 
+                                                {{ Auth::user()->favorites->contains($product->id)
+                                                    ? 'bg-indigo-50 text-indigo-700'
+                                                    : 'text-slate-600 hover:bg-slate-50' }}">
+
+                                                @if (Auth::user()->favorites->contains($product->id))
+                                                    <i
+                                                        class="fa-solid fa-bookmark text-indigo-600 w-3.5 text-center"></i>
+                                                    <span>Favorited</span>
+                                                @else
+                                                    <i
+                                                        class="fa-regular fa-bookmark text-indigo-400 w-3.5 text-center"></i>
+                                                    <span>Add to Favorite</span>
+                                                @endif
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('shop.products.show', $product) }}#rating"
                                             class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
                                             <i class="fa-solid fa-star text-amber-400 w-3.5 text-center"></i> Rating
                                         </a>
-                                        <a href="#"
+                                        <a href="{{ route('shop.products.show', $product->slug) }}?report=1"
                                             class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
                                             <i class="fa-solid fa-flag text-red-400 w-3.5 text-center"></i> Report
                                         </a>

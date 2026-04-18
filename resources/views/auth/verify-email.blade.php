@@ -5,8 +5,6 @@
     @include('layouts.head')
     <title>Verify Identity - Order Ready</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -28,6 +26,8 @@
 
 <body class="bg-[#fcfcfd] min-h-screen flex flex-col relative overflow-x-hidden">
     @include('layouts.header')
+    @include('layouts.notifications')
+
     <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-50 rounded-full blur-[120px] -z-10"></div>
     <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-50 rounded-full blur-[120px] -z-10"></div>
 

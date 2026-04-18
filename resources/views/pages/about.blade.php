@@ -4,13 +4,12 @@
 <head>
     <title>Information Hub - Order Ready</title>
     @include('layouts.head')
-
 </head>
 
 <body class="bg-white text-slate-900 antialiased">
 
     @include('layouts.header')
-
+    @include('layouts.notifications')
     <main class="max-w-7xl mx-auto px-6 lg:px-8 py-20" x-data="{ tab: 'legal' }" x-init="if (window.location.hash) tab = window.location.hash.replace('#', '')">
 
         <div class="flex flex-col md:flex-row gap-12">

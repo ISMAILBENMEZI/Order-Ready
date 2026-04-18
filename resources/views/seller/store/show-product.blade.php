@@ -29,20 +29,38 @@
                     <i class="fa-solid fa-arrow-left mr-2 transition-transform group-hover:-translate-x-1"></i> Back to
                     Store
                 </a>
-                <div class="flex gap-3">
-                    <span
-                        class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest 
-                        {{ $product->status == 'approved'
-                            ? 'bg-emerald-100 text-emerald-600'
-                            : ($product->status == 'pending'
-                                ? 'bg-amber-100 text-amber-600'
-                                : 'bg-red-100 text-red-600') }}">
-                        Status: {{ $product->status }}
-                    </span>
-                    <a href="{{ route('seller.store.edit-product', $product->id) }}"
-                        class="px-6 py-2 bg-slate-900 text-white rounded-xl text-sm font-bold hover:bg-blue-600 transition-all shadow-lg active:scale-95">
-                        <i class="fa-solid fa-pen-to-square mr-2"></i> Edit
+                <div class="flex items-center gap-2 mt-4 pt-4 border-t border-slate-50">
+                    <div class="flex-grow">
+                        <span
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-tighter
+            {{ $product->status == 'approved'
+                ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                : ($product->status == 'pending'
+                    ? 'bg-amber-50 text-amber-600 border border-amber-100'
+                    : 'bg-rose-50 text-rose-600 border border-rose-100') }}">
+                            <span
+                                class="w-1.5 h-1.5 rounded-full animate-pulse {{ $product->status == 'approved' ? 'bg-emerald-500' : ($product->status == 'pending' ? 'bg-amber-500' : 'bg-rose-500') }}"></span>
+                            {{ $product->status }}
+                        </span>
+                    </div>
+
+                    <a href="{{ route('seller.store.edit-product', $product) }}"
+                        class="group flex items-center justify-center w-9 h-9 bg-white border border-slate-200 text-slate-400 rounded-xl hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all duration-300 shadow-sm active:scale-90"
+                        title="Edit Product">
+                        <i class="fa-solid fa-pen-to-square text-xs group-hover:shake transition-transform"></i>
                     </a>
+
+                    <form action="{{ route('seller.store.delete-product', $product) }}" method="POST"
+                        onsubmit="return confirm('Are you sure you want to delete this product?')" class="inline-block">
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit"
+                            class="group flex items-center justify-center w-9 h-9 bg-white border border-slate-200 text-slate-400 rounded-xl hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all duration-300 shadow-sm active:scale-90"
+                            title="Delete Product">
+                            <i class="fa-solid fa-trash-can text-xs group-hover:shake transition-transform"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
 

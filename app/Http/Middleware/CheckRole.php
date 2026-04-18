@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
@@ -15,6 +17,10 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
     {
+        // if (Auth::guest()) {
+        //     return redirect()->route('auth.login');
+        // }
+
         $user = $request->user();
 
         if (!$user || !$user->role) {

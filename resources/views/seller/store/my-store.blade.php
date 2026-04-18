@@ -2,15 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>My Store — Product Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    @include('layouts.head')
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -75,12 +69,16 @@
                             {{ $store->name }}
                         </h1>
                         @if ($store->description)
-                            <p class="text-sm text-slate-500 mt-1 font-medium line-clamp-1">{{ $store->description }}
-                            </p>
+                            <p class="text-sm text-slate-500 mt-1 font-medium line-clamp-1">{{ $store->description }}</p>
                         @endif
                     </div>
 
-                    <div class="flex-shrink-0 pb-1 w-full sm:w-auto">
+                    <div class="flex-shrink-0 pb-1 w-full sm:w-auto flex items-center gap-3">
+                        <a href="{{ route('seller.store.statistics',$store) }}"
+                            class="flex items-center justify-center gap-2.5 px-6 py-3.5 bg-white text-slate-700 text-sm font-bold rounded-2xl hover:bg-slate-50 transition-colors shadow-sm border border-slate-200 active:scale-95 w-full sm:w-auto">
+                            <i class="fa-solid fa-chart-line text-blue-500 text-xs"></i>
+                            Statistics
+                        </a>
                         <a href="{{ route('seller.store.create-product') }}"
                             class="flex items-center justify-center gap-2.5 px-6 py-3.5 bg-blue-600 text-white text-sm font-bold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 active:scale-95 w-full sm:w-auto">
                             <i class="fa-solid fa-plus text-xs"></i>
@@ -92,59 +90,7 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-5 sm:px-8 mt-6 mb-10">
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
-                    <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-box text-blue-600 text-base"></i>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-extrabold text-slate-900 leading-none mb-1">{{ $products->total() }}</p>
-                        <p class="text-xs font-semibold text-slate-400">Total Products</p>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
-                    <div class="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-extrabold text-slate-900 leading-none mb-1">
-                            {{ $products->getCollection()->where('status', 'available')->count() }}
-                        </p>
-                        <p class="text-xs font-semibold text-slate-400">Available</p>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
-                    <div class="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-comments text-blue-600 text-base"></i>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-extrabold text-slate-900 leading-none mb-1">
-                            {{ $products->getCollection()->where('status', 'negotiating')->count() }}
-                        </p>
-                        <p class="text-xs font-semibold text-slate-400">Negotiating</p>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex items-center gap-4">
-                    <div class="w-11 h-11 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
-                        <i class="fa-solid fa-ban text-red-500 text-base"></i>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-extrabold text-slate-900 leading-none mb-1">
-                            {{ $products->getCollection()->where('status', 'sold_out')->count() }}
-                        </p>
-                        <p class="text-xs font-semibold text-slate-400">Sold Out</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-5 sm:px-8">
+        <div class="max-w-7xl mx-auto px-5 sm:px-8 mt-10">
 
             <div class="flex items-center justify-between mb-6">
                 <h2 class="text-lg font-extrabold text-slate-900">Your Products</h2>
@@ -205,7 +151,7 @@
                                         class="absolute top-9 left-0 w-48 bg-white rounded-2xl shadow-xl border border-slate-200 p-1.5 z-50">
                                         @foreach (['available' => ['label' => 'Available in stock', 'dot' => 'bg-emerald-500'], 'negotiating' => ['label' => 'Negotiating', 'dot' => 'bg-blue-500'], 'sold_out' => ['label' => 'Sold Out', 'dot' => 'bg-red-500']] as $key => $val)
                                             <form
-                                                action="{{ route('seller.store.product.update-status', $product->id) }}"
+                                                action="{{ route('seller.store.product.update-status', $product) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('PATCH')
@@ -258,12 +204,12 @@
                                 </div>
 
                                 <div class="mt-auto grid grid-cols-2 gap-2 pt-4 border-t border-slate-100">
-                                    <a href="{{ route('seller.store.edit-product', $product->id) }}"
+                                    <a href="{{ route('seller.store.edit-product', $product) }}"
                                         class="flex items-center justify-center gap-1.5 py-2.5 bg-slate-50 text-slate-600 text-xs font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all duration-200 active:scale-95">
                                         <i class="fa-solid fa-pen text-[10px]"></i> Edit
                                     </a>
 
-                                    <form action="{{ route('seller.store.delete-product', $product->id) }}"
+                                    <form action="{{ route('seller.store.delete-product', $product) }}"
                                         method="POST" onsubmit="return confirm('Are you sure?')">
                                         @csrf
                                         @method('DELETE')
@@ -285,8 +231,7 @@
                         <i class="fa-solid fa-box-open text-blue-400 text-3xl"></i>
                     </div>
                     <h3 class="text-lg font-extrabold text-slate-800 mb-2">No Products Yet</h3>
-                    <p class="text-sm text-slate-400 font-medium mb-6">Start by adding your first product to your
-                        store.</p>
+                    <p class="text-sm text-slate-400 font-medium mb-6">Start by adding your first product to your store.</p>
                     <a href="{{ route('seller.store.create-product') }}"
                         class="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/25 active:scale-95">
                         <i class="fa-solid fa-plus text-xs"></i>
@@ -295,9 +240,44 @@
                 </div>
             @endif
 
-            {{-- Pagination --}}
-            <div class="mt-10 mb-16">
-                {{ $products->links() }}
+            <div class="mt-10 mb-16 flex items-center justify-center gap-1">
+                {{-- Previous --}}
+                @if ($products->onFirstPage())
+                    <span class="px-4 py-2.5 text-sm font-semibold text-slate-300 bg-white border border-slate-200 rounded-xl cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </span>
+                @else
+                    <a href="{{ $products->previousPageUrl() }}"
+                        class="px-4 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200 active:scale-95">
+                        <i class="fa-solid fa-chevron-left text-xs"></i>
+                    </a>
+                @endif
+
+                {{-- Page numbers --}}
+                @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
+                    @if ($page == $products->currentPage())
+                        <span class="px-4 py-2.5 text-sm font-bold text-white bg-blue-600 border border-blue-600 rounded-xl shadow-md shadow-blue-500/25">
+                            {{ $page }}
+                        </span>
+                    @else
+                        <a href="{{ $url }}"
+                            class="px-4 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200 active:scale-95">
+                            {{ $page }}
+                        </a>
+                    @endif
+                @endforeach
+
+                {{-- Next --}}
+                @if ($products->hasMorePages())
+                    <a href="{{ $products->nextPageUrl() }}"
+                        class="px-4 py-2.5 text-sm font-semibold text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-200 active:scale-95">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </a>
+                @else
+                    <span class="px-4 py-2.5 text-sm font-semibold text-slate-300 bg-white border border-slate-200 rounded-xl cursor-not-allowed">
+                        <i class="fa-solid fa-chevron-right text-xs"></i>
+                    </span>
+                @endif
             </div>
 
         </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Seller\Store\StoreController;
 use App\Http\Controllers\Seller\Store\StoreSetupController;
+use App\Http\Controllers\Seller\store\StoreStatisticsController;
 use App\Http\Controllers\Seller\store\StoreUpdateController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,7 +20,7 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')
 
         Route::get('/my-store/{product}/edit', [StoreController::class, 'editProduct'])->name('store.edit-product');
         Route::put('/my-store/{product}/update', [StoreController::class, 'updateProduct'])->name('store.update-product');
-        Route::Patch('/my-store/{product}/update-status',[StoreController::class, 'updateProductSatatus'])->name('store.product.update-status');
+        Route::Patch('/my-store/{product}/update-status', [StoreController::class, 'updateProductSatatus'])->name('store.product.update-status');
 
         Route::delete('/my-store/product/{product}', [StoreController::class, 'deleteProduct'])->name('store.delete-product');
 
@@ -28,6 +29,11 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')
 
         Route::get('/my-store/edit', [StoreUpdateController::class, 'edit'])->name('store.edit');
         Route::put('/my-store/update', [StoreUpdateController::class, 'update'])->name('store.update');
-
         Route::get('/my-store/{product}/show', [StoreController::class, 'showProduct'])->name('store.show-product');
+        Route::get('/stores/{store}/statistics', [StoreStatisticsController::class, 'index'])->name('store.statistics');
+
+        Route::get('/store/{store}/analytics/favorites', [StoreStatisticsController::class, 'favorites'])->name('store.statistics.favorites');
+        Route::get('/store/{store}/analytics/interests', [StoreStatisticsController::class, 'interests'])->name('store.statistics.interests');
+        Route::get('/store/{store}/analytics/reports', [StoreStatisticsController::class, 'reports'])->name('store.statistics.reports');
+        Route::get('/store/{store}/analytics/deadProducts', [StoreStatisticsController::class, 'deadProducts'])->name('store.statistics.deadProducts');
     });

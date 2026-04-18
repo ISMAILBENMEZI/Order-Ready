@@ -5,8 +5,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Order Ready - Your Direct Trading Bridge</title>
     @include('layouts.head')
-    @vite(['resources/js/globalUtils/notifications.js'])
-
     <style>
         .hero-gradient {
             background: radial-gradient(circle at 10% 20%, rgb(239, 246, 255) 0%, rgb(255, 255, 255) 100%);
