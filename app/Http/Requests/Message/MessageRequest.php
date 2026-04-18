@@ -22,9 +22,9 @@ class MessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'receiver_id' => 'required|exists:user,id',
-            'message' => 'required|string',
-            'product_id' => 'nullable|exists:products,id',
+            'message'     => 'required|string',
+            'product_id'  => 'nullable|exists:products,id',
+            'receiver_id' => 'nullable',
         ];
     }
 }

@@ -14,7 +14,8 @@ export default defineConfig({
                 'resources/js/store/create-product.js',
                 'resources/js/store/myStore.js',
                 'resources/js/globalUtils/notifications.js',
-                'resources/js/shop/products-loader.js'
+                'resources/js/shop/products-loader.js',
+                'resources/js/chat/chat.js'
             ],
             refresh: true,
         }),

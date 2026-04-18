@@ -4,8 +4,14 @@
 <head>
     <title>Explore Products</title>
     @include('layouts.head')
-    @vite(['resources/js/shop/products-loader.js'])
-
+    <script>
+        window.chatConfig = {
+            fetchUrl: "{{ route('chat.fetch', $user->id) }}",
+            storeUrl: "{{ route('chat.store', $user->id) }}",
+            csrfToken: "{{ csrf_token() }}"
+        };
+    </script>
+    @vite(['resources/js/chat/chat.js'])
 </head>
 
 <body>
@@ -40,38 +46,14 @@
             </button>
         </form>
     </main>
-    @include('layouts.footer')
     <script>
-        // إرسال الرسالة عبر AJAX لمنع اهتزاز الصفحة
-        document.getElementById('chat-form').onsubmit = function(e) {
-            e.preventDefault();
-            const formData = new FormData(this);
-
-            fetch("{{ route('chat.store') }}", {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            }).then(() => {
-                document.getElementById('message-input').value = '';
-                loadMessages(); // تحديث فوري بعد الإرسال
-            });
+        window.chatConfig = {
+            fetchUrl: "{{ route('chat.fetch', $user->id) }}",
+            storeUrl: "{{ route('chat.store', $user->id) }}",
+            csrfToken: "{{ csrf_token() }}"
         };
-
-        function loadMessages() {
-            fetch("{{ route('chat.fetch', $user->id) }}")
-                .then(res => res.text())
-                .then(data => {
-                    const chatBox = document.getElementById("chat-box");
-                    chatBox.innerHTML = data;
-                    chatBox.scrollTop = chatBox.scrollHeight; // التمرير لأسفل تلقائياً
-                });
-        }
-
-        setInterval(loadMessages, 3000); // تحديث كل 3 ثوانٍ
     </script>
-
+    @include('layouts.footer')
 </body>
 
 </html>

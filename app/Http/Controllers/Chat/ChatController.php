@@ -16,23 +16,25 @@ class ChatController extends Controller
         $messages = $this->getChatMessages($user);
         return view('chat.show', compact('user', 'messages'));
     }
-    public function store(MessageRequest $request)
+    public function store(MessageRequest $request, User $user)
     {
-        $data =  $request->validated();
-
-        Message::create([
+        $message = Message::create([
             'sender_id' => Auth::id(),
-            'receiver_id' => $data['receiver_id'],
-            'product_id' => $data['product_id'] ?? null,
-            'message' => $data['message'],
+            'receiver_id' => $user->id,
+            'product_id' => $data->product_id ?? null,
+            'message' => $request->message,
         ]);
 
-        return response()->json(['status' => 'success']);
+        if ($message) {
+            return response()->json(['status' => 'success']);
+        }
+
+        return response()->json(['status' => 'error'], 500);
     }
 
     public function fetchMessages(User $user)
     {
-        $message = $this->getChatMessages($user);
+        $messages = $this->getChatMessages($user);
         return view('partials.messages', compact('messages'));
     }
 

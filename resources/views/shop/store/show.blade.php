@@ -103,7 +103,7 @@
                                 </div>
 
                                 <div class="flex items-center gap-2 flex-shrink-0">
-                                    <a href="{{ route('chat.index', $store->user_id) }}"
+                                    <a href="{{ route('chat.index', $store->seller_id) }}"
                                         class="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-100 transition-all active:scale-95">
                                         <i class="fa-solid fa-paper-plane text-[10px]"></i>
                                         Send Message to Seller
