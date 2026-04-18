@@ -35,4 +35,5 @@ Route::middleware(['auth', 'role:seller'])->prefix('seller')
         Route::get('/store/{store}/analytics/favorites', [StoreStatisticsController::class, 'favorites'])->name('store.statistics.favorites');
         Route::get('/store/{store}/analytics/interests', [StoreStatisticsController::class, 'interests'])->name('store.statistics.interests');
         Route::get('/store/{store}/analytics/reports', [StoreStatisticsController::class, 'reports'])->name('store.statistics.reports');
+        Route::get('/store/{store}/analytics/deadProducts', [StoreStatisticsController::class, 'deadProducts'])->name('store.statistics.deadProducts');
     });

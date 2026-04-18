@@ -103,6 +103,11 @@
                                 </div>
 
                                 <div class="flex items-center gap-2 flex-shrink-0">
+                                    <a href="{{ route('chat.index', $store->user_id) }}"
+                                        class="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-100 transition-all active:scale-95">
+                                        <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                                        Send Message to Seller
+                                    </a>
                                     <button x-data="{ copied: false }"
                                         @click="navigator.clipboard?.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 3000)"
                                         class="flex items-center gap-1.5 px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 active:scale-95">

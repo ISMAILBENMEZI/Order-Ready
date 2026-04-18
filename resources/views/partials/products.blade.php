@@ -38,11 +38,11 @@
                         @csrf
                         <button type="submit"
                             class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold rounded-xl transition-all duration-200 
-                                                {{ Auth::user()->favorites->contains($product)
+                                                {{ Auth::user()?->favorites?->contains($product)
                                                     ? 'bg-indigo-50 text-indigo-700'
                                                     : 'text-slate-600 hover:bg-slate-50' }}">
 
-                            @if (Auth::user()->favorites->contains($product->id))
+                            @if (Auth::user()?->favorites?->contains($product->id))
                                 <i class="fa-solid fa-bookmark text-indigo-600 w-3.5 text-center"></i>
                                 <span>Favorited</span>
                             @else

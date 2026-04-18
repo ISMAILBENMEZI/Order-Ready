@@ -62,4 +62,9 @@ class Product extends Model
     {
         return 'slug';
     }
+
+    public function message()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

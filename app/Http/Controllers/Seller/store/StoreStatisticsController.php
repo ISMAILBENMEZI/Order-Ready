@@ -51,7 +51,7 @@ class StoreStatisticsController extends Controller
             ->whereDoesntHave('interestRequests')
             ->get();
 
-        return view('seller.store.statistics', compact(
+        return view('seller.statistic.statistics', compact(
             'store',
             'topFavoritedProducts',
             'totalProducts',
@@ -64,5 +64,50 @@ class StoreStatisticsController extends Controller
             'interests',
             'deadProducts'
         ));
+    }
+
+    public function favorites(Store $store)
+    {
+        $products = $store->products()
+            ->with('primaryImage')
+            ->withcount('favorites')
+            ->orderByDesc('favorites_count')
+            ->take(12)
+            ->get();
+
+        return view('seller.statistic.favorites', compact('store', 'products'));
+    }
+
+    public function interests(Store $store)
+    {
+        $products = $store->products()
+            ->withCount('interestRequests')
+            ->orderByDesc('interest_requests_count')
+            ->take(12)
+            ->get();
+
+        return view('seller.statistic.interests', compact('store', 'products'));
+    }
+
+    public function reports(Store $store)
+    {
+        $products = $store->products()
+            ->withCount('reports')
+            ->orderByDesc('reports_count')
+            ->take(12)
+            ->get();
+
+        return view('seller.statistic.reports', compact('store', 'products'));
+    }
+
+    public function deadProducts(Store $store)
+    {
+        $products = $store->products()
+            ->doesntHave('favorites')
+            ->doesntHave('interestRequests')
+            ->take(12)
+            ->get();
+
+        return view('seller.statistic.deadProducts', compact('store', 'products'));
     }
 }

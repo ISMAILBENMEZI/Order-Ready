@@ -25,6 +25,11 @@
                 <a href="{{ route('about') }}" class="hover:text-blue-600 transition">About</a>
                 <a href="{{ route('shop.products.index') }}" class="hover:text-blue-600 transition">Shop</a>
                 <a href="{{ route('contact') }}" class="hover:text-blue-600 transition">Contact</a>
+                <a href="{{ route('chat.inbox') }}"
+                    class="relative group flex items-center gap-1.5 hover:text-blue-600 transition">
+                    <i class="fa-solid fa-comment-dots text-slate-400 group-hover:text-blue-600 transition"></i>
+                    <span>Messages</span>
+                </a>
             </div>
 
             <div class="flex items-center gap-4">

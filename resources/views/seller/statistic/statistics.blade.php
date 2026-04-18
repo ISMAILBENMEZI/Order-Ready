@@ -171,18 +171,18 @@
                         <p class="text-[9px] text-slate-400 font-bold">View details →</p>
                     </a>
 
-                    <a href="" {{-- {{ route('seller.store.statistics.popular', Auth::user()->store) }} --}}
+                    <a href="{{ route('seller.store.statistics.favorites', Auth::user()->store) }}"
                         class="stat-card block count-up card-7 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-blue-300 transition-all cursor-pointer">
                         <div class="w-10 h-10 rounded-xl bg-rose-50 flex items-center justify-center mb-4">
                             <i class="fa-solid fa-fire text-rose-500 text-lg"></i>
                         </div>
                         <p class="text-[10px] font-bold text-rose-600 uppercase tracking-wider mb-1">Top Favorite</p>
                         <p class="text-2xl font-black text-slate-900 leading-none mb-2">
-                            {{ $popularProductsCount ?? 0 }}</p>
+                            {{ $topFavoritedProducts ?? 0 }}</p>
                         <p class="text-[9px] text-slate-400 font-bold">Popular →</p>
                     </a>
 
-                    <a href="" {{-- {{ route('seller.store.statistics.dead', Auth::user()->store) }} --}}
+                    <a href="{{ route('seller.store.statistics.deadProducts', Auth::user()->store) }}" 
                         class="stat-card block count-up card-8 bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-blue-300 transition-all cursor-pointer">
                         <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mb-4">
                             <i class="fa-solid fa-skull text-slate-500 text-lg"></i>
