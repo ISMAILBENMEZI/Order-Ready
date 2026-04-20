@@ -81,6 +81,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Store::class, 'store_follower')->withTimestamps();
     }
 
+    public function hasInterestedIn(Product $product)
+    {
+        return $this->interestRequests()
+            ->where('product_id', $product->id)
+            ->exists();
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

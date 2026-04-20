@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pages\contactRequest;
 use App\Mail\Support\ContactFormMail;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -31,5 +32,16 @@ class PageController extends Controller
 
         Mail::to('orderreadystore@gmail.com')->send(new ContactFormMail($data));
         return back()->with('success', 'Your message has been sent successfully!');
+    }
+
+    public function stores(Request $request)
+    {
+        $search = $request->search;
+
+        $stores = Store::when($search, function ($q) use ($search) {
+            $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%');
+        })->paginate(12);
+        return view('pages.store', compact('stores', 'search'));
     }
 }

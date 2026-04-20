@@ -1,62 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <title>Explore Products</title>
+    <title>Messages | Dashboard</title>
     @include('layouts.head')
-    @vite(['resources/js/shop/products-loader.js'])
-
 </head>
-
-<body>
+<body class="bg-[#f8fafc] antialiased text-slate-900 font-sans">
     @include('layouts.header')
     @include('layouts.notifications')
-    <main class="max-w-4xl mx-auto my-10 px-6">
-        <div class="mb-8">
-            <h1 class="text-3xl font-black text-slate-900 tracking-tight">Messages</h1>
-            <p class="text-slate-400 text-sm font-medium">Manage your conversations with buyers and sellers.</p>
+    
+    <main class="max-w-3xl mx-auto py-12 px-6">
+        <div class="flex items-end justify-between mb-8">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">
+                    Messages
+                </h1>
+                <p class="text-sm text-slate-500 mt-1">
+                    You have {{ count($conversations) }} active discussions
+                </p>
+            </div>
+            <a href="{{ route('shop.products.index') }}" 
+               class="inline-flex items-center text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors group">
+                <svg class="w-4 h-4 mr-1.5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to Shop
+            </a>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-[32px] overflow-hidden shadow-sm">
-            <div class="divide-y divide-slate-50">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="divide-y divide-slate-100">
                 @forelse($conversations as $contact)
-                    <a href="{{ route('chat.index', $contact->id) }}"
-                        class="flex items-center gap-4 p-5 hover:bg-slate-50 transition-all group">
-
+                    <a href="{{ route('chat.index', $contact->id) }}" 
+                       class="flex items-center gap-4 p-5 hover:bg-slate-50 transition-all duration-200 group">
+                        
                         <div class="relative flex-shrink-0">
-                            <div
-                                class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 font-black text-xl border border-blue-100 group-hover:scale-105 transition-transform">
-                                {{ substr($contact->name, 0, 1) }}
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-slate-100 to-slate-200 border border-slate-200 flex items-center justify-center text-slate-700 font-bold text-lg shadow-sm group-hover:scale-105 transition-transform">
+                                {{ strtoupper(substr($contact->name, 0, 1)) }}
                             </div>
-                            <div
-                                class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-4 border-white rounded-full">
-                            </div>
+                            <span class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-500 border-2 border-white rounded-full shadow-sm"></span>
                         </div>
 
-                        <div class="flex-grow min-w-0">
+                        <div class="flex-1 min-w-0">
                             <div class="flex justify-between items-center mb-1">
-                                <h3 class="font-extrabold text-slate-800 truncate">{{ $contact->name }}</h3>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
-                                    Active Now
-                                </span>
+                                <h3 class="text-[15px] font-bold text-slate-800 group-hover:text-blue-600 transition-colors">
+                                    {{ $contact->name }}
+                                </h3>
+                                <span class="text-[11px] font-medium text-slate-400 uppercase tracking-wider">2h ago</span>
                             </div>
-                            <p class="text-sm text-slate-500 truncate group-hover:text-slate-900 transition-colors">
-                                Click to view your conversation history...
+                            <p class="text-sm text-slate-500 truncate leading-relaxed">
+                                Click to resume your conversation...
                             </p>
                         </div>
 
-                        <div class="text-slate-300 group-hover:text-blue-600 transition-colors pl-4">
-                            <i class="fa-solid fa-chevron-right text-sm"></i>
+                        <div class="text-slate-300 group-hover:text-slate-400 group-hover:translate-x-1 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
                         </div>
                     </a>
                 @empty
-                    <div class="py-20 text-center">
-                        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fa-solid fa-comments text-slate-200 text-3xl"></i>
+                    <div class="py-24 text-center">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-slate-50 text-slate-300 mb-4">
+                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                            </svg>
                         </div>
-                        <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">No conversations yet</p>
-                        <a href="{{ route('shop.products.index') }}"
-                            class="mt-4 inline-block text-blue-600 font-black text-xs uppercase hover:underline">
+                        <h3 class="text-slate-900 font-semibold">No messages yet</h3>
+                        <p class="text-slate-500 text-sm mt-1">When you contact sellers, your chats will appear here.</p>
+                        <a href="{{ route('shop.products.index') }}" 
+                           class="mt-6 inline-flex items-center px-5 py-2.5 text-sm font-medium text-white bg-slate-900 rounded-xl hover:bg-slate-800 transition-colors">
                             Start Shopping
                         </a>
                     </div>
@@ -64,7 +76,7 @@
             </div>
         </div>
     </main>
+
     @include('layouts.footer')
 </body>
-
 </html>

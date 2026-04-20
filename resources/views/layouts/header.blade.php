@@ -24,9 +24,10 @@
                 <a href="{{ route('home') }}" class="hover:text-blue-600 transition">Home</a>
                 <a href="{{ route('about') }}" class="hover:text-blue-600 transition">About</a>
                 <a href="{{ route('shop.products.index') }}" class="hover:text-blue-600 transition">Shop</a>
+                <a href="{{ route('chat.inbox') }}"class="hover:text-blue-600 transition">Messages</a>
+                <a href="{{ route('stores') }}"class="hover:text-blue-600 transition">Stores</a>
                 <a href="{{ route('contact') }}" class="hover:text-blue-600 transition">Contact</a>
-                <a href="{{ route('chat.inbox') }}"
-                    class="hover:text-blue-600 transition">Messages</a>
+
             </div>
 
             <div class="flex items-center gap-4">
@@ -111,10 +112,13 @@
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">About</a>
             <a href="{{ route('shop.products.index') }}"
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Shop</a>
-            <a href="{{ route('contact') }}"
-                class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Contact</a>
             <a href="{{ route('chat.inbox') }}"
                 class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Messages</a>
+            <a href="{{ route('stores') }}"
+                class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Stores</a>
+
+            <a href="{{ route('contact') }}"
+                class="block py-3 px-2 text-gray-700 font-semibold hover:text-blue-600 border-b border-gray-50">Contact</a>
 
             @guest
                 <div class="grid grid-cols-2 gap-4 pt-4">
