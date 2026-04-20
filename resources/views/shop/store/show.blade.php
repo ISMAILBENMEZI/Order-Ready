@@ -84,19 +84,33 @@
                                         </p>
                                     @endif
 
-                                    <div class="flex flex-wrap items-center gap-3 mt-3">
+                                    <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-3">
                                         @if ($store->location)
                                             <span
-                                                class="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
-                                                <i class="fa-solid fa-location-dot text-blue-400 text-[11px]"></i>
-                                                {{ $store->location }}
+                                                class="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 min-w-0">
+                                                <i class="fa-solid fa-location-dot text-indigo-500 text-[10px]"></i>
+                                                <span class="truncate max-w-[120px]" title="{{ $store->location }}">
+                                                    {{ $store->location }}
+                                                </span>
                                             </span>
                                         @endif
+
+                                        @if ($store->contact_phone)
+                                            <a href="tel:{{ $store->contact_phone }}"
+                                                class="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 hover:text-indigo-600 transition-colors">
+                                                <i class="fa-solid fa-phone text-indigo-500 text-[10px]"></i>
+                                                {{ $store->contact_phone }}
+                                            </a>
+                                        @endif
+
                                         @if ($store->contact_email)
                                             <span
-                                                class="flex items-center gap-1.5 text-xs font-semibold text-slate-400">
-                                                <i class="fa-solid fa-envelope text-blue-400 text-[11px]"></i>
-                                                {{ $store->contact_email }}
+                                                class="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 min-w-0">
+                                                <i class="fa-solid fa-envelope text-indigo-500 text-[10px]"></i>
+                                                <span class="truncate max-w-[150px]"
+                                                    title="{{ $store->contact_email }}">
+                                                    {{ $store->contact_email }}
+                                                </span>
                                             </span>
                                         @endif
                                     </div>
@@ -104,9 +118,9 @@
 
                                 <div class="flex items-center gap-2 flex-shrink-0">
                                     <a href="{{ route('chat.index', $store->seller_id) }}"
-                                        class="flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-100 transition-all active:scale-95">
+                                        class="flex items-center justify-center gap-2 px-4 py-3 md:px-6 bg-slate-900 text-white text-[10px] md:text-[11px] font-black uppercase tracking-widest rounded-2xl hover:bg-indigo-900 hover:shadow-lg hover:shadow-indigo-100 transition-all active:scale-95 w-full sm:w-auto">
                                         <i class="fa-solid fa-paper-plane text-[10px]"></i>
-                                        Send Message to Seller
+                                        <span class="xs:hidden">Contact</span>
                                     </a>
                                     <button x-data="{ copied: false }"
                                         @click="navigator.clipboard?.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 3000)"
