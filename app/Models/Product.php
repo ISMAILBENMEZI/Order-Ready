@@ -15,7 +15,9 @@ class Product extends Model
         'discount_price',
         'is_negotiable',
         'status',
-        'slug'
+        'slug',
+        'admin_status',
+        'ban_reason',
     ];
 
     public function store()

@@ -30,7 +30,7 @@
     </style>
 </head>
 
-<body class="bg-slate-100 min-h-screen flex flex-col">
+<body class="bg-slate-100 min-h-screen flex flex-col" x-data="{ reportModalOpen: false }">
 
     @include('layouts.header')
     @include('layouts.notifications')
@@ -164,114 +164,67 @@
                         </a>
                     </div>
 
-                    <div class="flex gap-3">
-                        <a href="{{ route('chat.index', ['user' => $product->store->seller_id, 'product' => $product->id]) }}"
-                            class="flex-1 flex items-center justify-center gap-2 h-11 bg-slate-900 text-white text-xs font-bold rounded-xl hover:bg-blue-600 transition-colors duration-200 active:scale-95">
-                            <i class="fa-solid fa-paper-plane text-[11px]"></i> Message
-                        </a>
+                    <div class="flex flex-col gap-4 mt-6">
+                        <div class="flex gap-3">
+                            @php
+                                $hasInterested = auth()->check() && auth()->user()->hasInterestedIn($product);
+                                $isFavorite =
+                                    auth()->check() &&
+                                    auth()->user()->favorites()->where('product_id', $product->id)->exists();
+                            @endphp
 
-                        <button x-data="{ copied: false }"
-                            @click="navigator.clipboard?.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 2000)"
-                            class="w-13 h-13 p-3.5 flex items-center justify-center bg-white border border-slate-200 rounded-2xl text-slate-500 hover:border-blue-400 hover:text-blue-600 hover:bg-blue-50 transition-all duration-200 active:scale-90 shadow-sm"
-                            :title="copied ? 'Link copied!' : 'Share'">
-                            <i class="fa-solid fa-share-nodes text-sm" x-show="!copied"></i>
-                            <i class="fa-solid fa-check text-sm text-blue-600" x-show="copied"
-                                style="display:none;"></i>
-                        </button>
+                            @if (!$hasInterested)
+                                <form method="POST" action="{{ route('product.interest', $product) }}" class="flex-1">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full flex items-center justify-center gap-2 h-14 bg-white border-2 border-slate-100 text-slate-700 text-sm font-black rounded-2xl hover:bg-pink-50 hover:text-pink-600 hover:border-pink-100 transition-all duration-300 active:scale-95 shadow-sm group">
+                                        <i class="fa-regular fa-heart group-hover:fa-solid transition-all"></i>
+                                        <span>I'm Interested</span>
+                                    </button>
+                                </form>
+                            @else
+                                <div
+                                    class="flex-1 flex items-center justify-center gap-2 h-14 bg-pink-50 text-pink-600 border-2 border-pink-100 text-sm font-black rounded-2xl cursor-default shadow-inner">
+                                    <i class="fa-solid fa-heart animate-pulse"></i>
+                                    <span>Interested</span>
+                                </div>
+                            @endif
 
-                        <div x-data="{ open: {{ request('report') ? 'true' : false }} }">
-                            <button @click="open = true"
-                                class="w-13 h-13 p-3.5 flex items-center justify-center bg-white border border-slate-200 rounded-2xl text-slate-400 hover:border-red-300 hover:text-red-500 hover:bg-red-50 transition-all duration-200 active:scale-95 shadow-sm"
-                                title="Report">
-                                <i class="fa-solid fa-flag text-sm"></i>
+                            <form method="POST" action="{{ route('products.favorite', $product) }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-14 h-14 flex items-center justify-center border-2 transition-all duration-300 active:scale-90 rounded-2xl shadow-sm
+                                    {{ $isFavorite
+                                        ? 'border-amber-100 bg-amber-50 text-amber-500 shadow-amber-100'
+                                        : 'border-slate-100 bg-white text-slate-400 hover:bg-amber-50 hover:text-amber-500 hover:border-amber-100' }}">
+                                    <i class="{{ $isFavorite ? 'fa-solid' : 'fa-regular' }} fa-bookmark text-xl"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <a href="{{ route('chat.index', ['user' => $product->store->seller_id, 'product' => $product->id]) }}"
+                                class="flex-1 flex items-center justify-center gap-2 h-12 bg-slate-900 text-white text-xs font-bold rounded-2xl hover:bg-blue-600 transition-all duration-300 active:scale-95 shadow-lg shadow-slate-200">
+                                <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                                Message Seller
+                            </a>
+
+                            <button x-data="{ copied: false }"
+                                @click="navigator.clipboard?.writeText(window.location.href); copied = true; setTimeout(() => copied = false, 2000)"
+                                class="w-12 h-12 flex items-center justify-center bg-white border-2 border-slate-100 rounded-2xl text-slate-500 hover:border-blue-200 hover:text-blue-600 transition-all duration-300 active:scale-90"
+                                :class="copied ? 'border-green-200 bg-green-50 text-green-600' : ''">
+                                <i class="fa-solid fa-share-nodes text-sm" x-show="!copied"></i>
+                                <i class="fa-solid fa-check text-sm" x-show="copied" style="display:none;"></i>
                             </button>
 
-                            <div x-show="open" class="fixed inset-0 z-[100] flex items-center justify-center p-4"
-                                style="display: none;">
-
-                                <div x-show="open" x-transition:enter="ease-out duration-300"
-                                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                                    x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
-                                    x-transition:leave-end="opacity-0"
-                                    class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
-
-                                <div x-show="open" x-transition:enter="ease-out duration-300"
-                                    x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-                                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-                                    x-transition:leave="ease-in duration-200"
-                                    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-                                    x-transition:leave-end="opacity-0 scale-95 translate-y-4"
-                                    @click.outside="open = false"
-                                    class="relative bg-white w-full max-w-md overflow-hidden rounded-[24px] shadow-2xl ring-1 ring-slate-200">
-
-                                    <div
-                                        class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-                                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                                            <span
-                                                class="w-8 h-8 rounded-lg bg-red-100 text-red-600 flex items-center justify-center">
-                                                <i class="fa-solid fa-circle-exclamation text-sm"></i>
-                                            </span>
-                                            Report this product
-                                        </h2>
-                                        <button @click="open = false"
-                                            class="text-slate-400 hover:text-slate-600 transition-colors">
-                                            <i class="fa-solid fa-xmark"></i>
-                                        </button>
-                                    </div>
-
-                                    <form method="POST" action="{{ route('product.reports', $product) }}"
-                                        class="p-6">
-                                        @csrf
-
-                                        <div class="space-y-4">
-                                            <div>
-                                                <label class="block mb-1.5 text-sm font-semibold text-slate-700">Reason
-                                                    for reporting</label>
-                                                <div class="relative">
-                                                    <select name="reason" required
-                                                        class="w-full bg-slate-50 border border-slate-200 text-slate-600 text-sm rounded-xl focus:ring-4 focus:ring-red-50 focus:border-red-400 block p-3 appearance-none transition-all outline-none">
-                                                        <option value="">Select a reason</option>
-                                                        <option value="spam">Spam</option>
-                                                        <option value="scam">Scam</option>
-                                                        <option value="fake_product">Fake product</option>
-                                                        <option value="inappropriate_content">Inappropriate content
-                                                        </option>
-                                                        <option value="other">Other</option>
-                                                    </select>
-                                                    <div
-                                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
-                                                        <i class="fa-solid fa-chevron-down text-[10px]"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <label
-                                                    class="block mb-1.5 text-sm font-semibold text-slate-700">Details
-                                                    (optional)</label>
-                                                <textarea name="description" rows="4"
-                                                    class="w-full bg-slate-50 border border-slate-200 text-slate-600 text-sm rounded-xl focus:ring-4 focus:ring-red-50 focus:border-red-400 block p-3 transition-all outline-none resize-none"
-                                                    placeholder="Please provide more information..."></textarea>
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center gap-3 mt-8">
-                                            <button type="button" @click="open = false"
-                                                class="flex-1 px-4 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition-all active:scale-95">
-                                                Cancel
-                                            </button>
-
-                                            <button type="submit"
-                                                class="flex-[2] px-4 py-3 text-sm font-bold text-white bg-red-600 hover:bg-red-700 shadow-lg shadow-red-200 rounded-xl transition-all active:scale-95">
-                                                Submit Report
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
+                            <div>
+                                <button @click="reportModalOpen = true"
+                                    class="w-12 h-12 flex items-center justify-center bg-white border-2 border-slate-100 rounded-2xl text-slate-400 hover:border-red-100 hover:text-red-500 hover:bg-red-50 transition-all duration-300 active:scale-90">
+                                    <i class="fa-solid fa-flag text-xs"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -421,6 +374,77 @@
             </div>
         </div>
     </main>
+
+    <div x-show="reportModalOpen" 
+         class="fixed inset-0 z-[100] overflow-y-auto" 
+         style="display: none;"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity bg-slate-900/60 backdrop-blur-sm" @click="reportModalOpen = false"></div>
+
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+
+            <div class="inline-block align-bottom bg-white rounded-3xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full border border-slate-100"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100">
+                
+                <div class="bg-white p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center">
+                                <i class="fa-solid fa-flag text-red-500"></i>
+                            </div>
+                            <h3 class="text-xl font-extrabold text-slate-900">Report Product</h3>
+                        </div>
+                        <button @click="reportModalOpen = false" class="text-slate-400 hover:text-slate-600 transition-colors">
+                            <i class="fa-solid fa-xmark text-lg"></i>
+                        </button>
+                    </div>
+
+                    <form action="{{ route('product.reports', $product) }}" method="POST">
+                        @csrf
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Reason</label>
+                                <select name="reason" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-bold text-slate-700 outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all appearance-none">
+                                    <option value="" disabled selected>Select a reason</option>
+                                    <option value="spam">Spam</option>
+                                    <option value="scam">Scam</option>
+                                    <option value="fake_product">Fake Product</option>
+                                    <option value="inappropriate_content">Inappropriate Content</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Description (Optional)</label>
+                                <textarea name="description" rows="4" maxlength="1000" placeholder="Please provide more details..." 
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium text-slate-700 placeholder-slate-400 outline-none resize-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 flex gap-3">
+                            <button type="button" @click="reportModalOpen = false" 
+                                class="flex-1 px-6 py-3.5 bg-slate-100 text-slate-600 rounded-2xl text-sm font-bold hover:bg-slate-200 transition-all active:scale-95">
+                                Cancel
+                            </button>
+                            <button type="submit" 
+                                class="flex-1 px-6 py-3.5 bg-red-500 text-white rounded-2xl text-sm font-bold hover:bg-red-600 shadow-lg shadow-red-200 transition-all active:scale-95">
+                                Submit Report
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @include('layouts.footer')
 

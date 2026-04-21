@@ -13,7 +13,8 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $query = Product::with(['store', 'category', 'primaryImage'])
-            ->where('status', 'available');
+            ->where('status', 'available')
+            ->where('admin_status', 'active');
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');

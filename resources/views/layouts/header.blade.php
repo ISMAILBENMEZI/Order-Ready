@@ -88,6 +88,23 @@
                                         class="fa-solid fa-chevron-right ml-auto text-[10px] text-blue-400 opacity-0 -translate-x-2 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"></i>
                                 </a>
                             @endif
+                            @if (Auth::user()->role->name === 'admin')
+                                <a href="{{ route('admin.dashboard') }}"
+                                    class="group flex items-center px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 transition-all duration-200 whitespace-nowrap">
+
+                                    <div
+                                        class="flex-shrink-0 w-8 flex items-center justify-start transition-transform duration-200 group-hover:scale-110">
+                                        <i class="fa-solid fa-gauge-high text-slate-400 group-hover:text-blue-500"></i>
+                                    </div>
+
+                                    <span
+                                        class="font-medium transition-colors duration-200 group-hover:text-blue-600 whitespace-nowrap">
+                                        Admin Dashboard
+                                    </span>
+
+
+                                </a>
+                            @endif
                             <hr class="my-2 border-gray-100">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

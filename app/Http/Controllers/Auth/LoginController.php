@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -16,22 +18,25 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
 
-        if (!Auth::attempt($credentials,$request->filled('remember'))) {
-            return back()->withErrors([
-                'email' => 'Invalid email or password.',
-            ])->onlyInput('email');
+        $user = User::where('email', $request->email)->first();
+
+        if ($user && !$user->email_verified_at) {
+            if (Hash::check($request->password, $user->password)) {
+                Auth::login($user);
+                return redirect()->route('auth.verify.form')
+                    ->with('success', 'We sent a verification code to your email.');
+            } else {
+                return back()->withErrors([
+                    'email' => 'Invalid email or password.',
+                ]);
+            }
         }
 
-        $user = Auth::user();
-
-        if (!$user->email_verified_at) {
-            Auth::logout();
-
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return back()->withErrors([
-                'email' => 'Please verify your email before logging in.',
-            ])->onlyInput('email');
+                'email' => 'Invalid email or password.',
+            ]);
         }
 
         $request->session()->regenerate();
