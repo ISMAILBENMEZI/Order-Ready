@@ -11,7 +11,8 @@ class Report extends Model
         'product_id',
         'reason',
         'description',
-        'status'
+        'status',
+        'admin_note'
     ];
 
     public function user()

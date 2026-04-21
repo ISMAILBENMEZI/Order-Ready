@@ -372,10 +372,23 @@
                                             class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
                                             <i class="fa-solid fa-flag text-red-400 w-3.5 text-center"></i> Report
                                         </a>
-                                        <a href="#"
-                                            class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
-                                            <i class="fa-solid fa-heart text-pink-400 w-3.5 text-center"></i> Interest
-                                        </a>
+                                        @if (auth()->check() && auth()->user()->hasInterestedIn($product))
+                                            <div
+                                                class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-pink-600 bg-pink-50 rounded-xl">
+                                                <i class="fa-solid fa-heart text-pink-500 w-3.5 text-center"></i>
+                                                Interested
+                                            </div>
+                                        @else
+                                            <form method="POST" action="{{ route('product.interest', $product) }}">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl">
+                                                    <i
+                                                        class="fa-regular fa-heart text-slate-400 w-3.5 text-center"></i>
+                                                    Interest
+                                                </button>
+                                            </form>
+                                        @endif
                                         <button type="button" x-data="{ copied: false }"
                                             @click.stop="navigator.clipboard?.writeText('{{ route('shop.products.show', $product->slug) }}'); copied = true; setTimeout(() => copied = false, 3000)"
                                             class="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 rounded-xl transition-colors">
@@ -423,10 +436,24 @@
                                         <i class="fa-solid fa-paper-plane text-[10px] sm:text-[11px]"></i>
                                         Message
                                     </button>
-                                    <button
-                                        class="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center border border-slate-200 text-slate-300 rounded-xl hover:bg-pink-50 hover:text-pink-500 hover:border-pink-200 transition-all duration-200 active:scale-90">
-                                        <i class="fa-solid fa-heart text-[12px] sm:text-[14px]"></i>
-                                    </button>
+                                    @php
+                                        $isInterested = auth()->check() && auth()->user()->hasInterestedIn($product);
+                                    @endphp
+
+                                    @if (!$isInterested)
+                                        <form method="POST" action="{{ route('product.interest', $product) }}">
+                                            @csrf
+                                            <button type="submit"
+                                                class="w-11 h-11 flex items-center justify-center border border-slate-200 text-slate-300 rounded-xl hover:bg-pink-50 hover:text-pink-500 hover:border-pink-200 transition-all duration-200 active:scale-90">
+                                                <i class="fa-solid fa-heart text-[14px]"></i>
+                                            </button>
+                                        </form>
+                                    @else
+                                        <div title="Already interested"
+                                            class="w-11 h-11 flex items-center justify-center border border-pink-200 bg-pink-50 text-pink-500 rounded-xl cursor-default shadow-sm">
+                                            <i class="fa-solid fa-heart text-[14px]"></i>
+                                        </div>
+                                    @endif
                                 </div>
 
                             </div>

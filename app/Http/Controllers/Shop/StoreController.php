@@ -12,7 +12,9 @@ class StoreController extends Controller
 {
     public function show(Store $store, Request $request)
     {
-        $query = $store->products()->with('primaryImage', 'category');
+        $query = $store->products()->with('primaryImage', 'category')
+            ->where('status', 'available')
+            ->where('admin_status', 'active');
 
         if ($request->filled('search')) {
             $query->where('name', 'like', '%' . $request->search . '%');
