@@ -18,42 +18,40 @@ class LoginController extends Controller
 
     public function store(LoginRequest $request)
     {
-
         $user = User::where('email', $request->email)->first();
 
-        if ($user && !$user->email_verified_at) {
-            if (Hash::check($request->password, $user->password)) {
+        if ($user && Hash::check($request->password, $user->password)) {
+
+            if ($user->status === 'disabled') {
+                return redirect()->route('auth.banned')
+                    ->with([
+                        'name' => $user->name,
+                        'email' => $user->email
+                    ]);
+            }
+
+            if (!$user->email_verified_at) {
                 Auth::login($user);
                 return redirect()->route('auth.verify.form')
                     ->with('success', 'We sent a verification code to your email.');
-            } else {
-                return back()->withErrors([
-                    'email' => 'Invalid email or password.',
-                ]);
             }
-        }
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return back()->withErrors([
-                'email' => 'Invalid email or password.',
-            ]);
-        }
+            Auth::login($user);
+            $request->session()->regenerate();
 
-        $request->session()->regenerate();
-        $role = $user->role->name;
-
-        if ($role === 'seller') {
-            if (!$user->store()->exists()) {
-                return redirect()->route('seller.store.setup');
+            $role = $user->role->name;
+            if ($role === 'seller') {
+                return $user->store()->exists()
+                    ? redirect()->route('seller.store.index')
+                    : redirect()->route('seller.store.setup');
             }
-            return redirect()->route('seller.store.index');
+
+            return $role === 'admin'
+                ? redirect()->route('admin.dashboard')
+                : redirect()->route('home');
         }
 
-        if ($role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        }
-
-        return redirect()->route('home');
+        return back()->withErrors(['email' => 'Invalid email or password.']);
     }
 
     public function destroy(Request $request)

@@ -16,7 +16,8 @@ export default defineConfig({
                 'resources/js/globalUtils/notifications.js',
                 'resources/js/shop/products-loader.js',
                 'resources/js/chat/chat.js',
-                'resources/js/admin/categories.js'
+                'resources/js/admin/categories.js',
+                'resources/js/admin/reports.js'
             ],
             refresh: true,
         }),

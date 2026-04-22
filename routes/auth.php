@@ -24,6 +24,8 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
     Route::get('/reset-password/{token}', [ResetPasswordController::class, 'create'])->name('password.reset');
     Route::post('/reset-password', [ResetPasswordController::class, 'store'])->name('password.update');
+
+    Route::get('/account/banned', function () { return view('auth.banned'); })->name('banned');
 });
 
 

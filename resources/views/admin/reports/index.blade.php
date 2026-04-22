@@ -5,6 +5,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Manage Reports — Admin</title>
     @include('layouts.head')
+    @vite(['resources/js/admin/reports.js'])
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -138,8 +139,8 @@
                                 </a>
 
                                 @if ($report->status != 'resolved')
-                                    <button onclick="openBanModal({{ $report->id }}, '{{ $report->product_id }}')"
-                                        class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 rounded-xl text-xs font-bold text-white hover:bg-red-600 shadow-md transition-all">
+                                    <button data-report="{{ $report->id }}" data-product="{{ $report->product_id }}"
+                                        class="btn-take-action w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-slate-900 rounded-xl text-xs font-bold text-white hover:bg-red-600 shadow-md transition-all">
                                         <i class="fa-solid fa-gavel"></i> Take Action
                                     </button>
                                 @else
@@ -158,34 +159,78 @@
                     </div>
                 @endforelse
             </div>
+            <div id="actionModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+                <div class="flex items-center justify-center min-h-screen px-4">
+                    <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
+
+                    <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 overflow-hidden">
+                        <div class="mb-6">
+                            <h3 class="text-xl font-bold text-slate-900">Resolve This Report</h3>
+                            <p class="text-sm text-slate-500">Decide if this product should be banned or kept active.
+                            </p>
+                        </div>
+
+                        <form action="{{ route('admin.reports.update') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="report_id" id="modal_report_id">
+                            <input type="hidden" name="product_id" id="modal_product_id">
+
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Update Report
+                                        Status</label>
+                                    <select name="report_status"
+                                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none">
+                                        <option value="pending">Pending</option>
+                                        <option value="reviewed">Reviewed</option>
+                                        <option value="resolved">Resolved</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Product Admin
+                                        Status</label>
+                                    <select name="product_admin_status"
+                                        class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm outline-none">
+                                        <option value="active">Active</option>
+                                        <option value="banned">Banned</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Message to
+                                        Seller (Ban Reason)</label>
+                                    <textarea name="seller_message" rows="2" required
+                                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Why is this product being restricted?"></textarea>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Feedback to
+                                        Reporter</label>
+                                    <textarea name="reporter_message" rows="2" required
+                                        class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                                        placeholder="Thank you for your report, we have..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 flex justify-end gap-3">
+                                <button type="button" onclick="closeModal()"
+                                    class="px-4 py-2 text-sm font-semibold text-slate-500">Cancel</button>
+                                <button type="submit"
+                                    class="px-6 py-2 bg-blue-600 text-white rounded-lg text-sm font-bold hover:bg-blue-700 transition-colors">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
     </main>
 
     @include('layouts.footer')
-
-    <script>
-        function openBanModal(reportId, productId) {
-            document.getElementById('modal_report_id').value = reportId;
-            document.getElementById('modal_product_id').value = productId;
-
-            const modal = document.getElementById('actionModal');
-            modal.classList.remove('hidden');
-
-            document.body.style.overflow = 'hidden'; 
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('actionModal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto'; 
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('actionModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-    </script>
 </body>
 
 </html>
