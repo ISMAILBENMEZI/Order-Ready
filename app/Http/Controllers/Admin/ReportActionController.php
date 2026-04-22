@@ -16,9 +16,9 @@ class ReportActionController extends Controller
 {
     public function reports()
     {
-        $reports = Report::with(['product', 'user'])->latest()->paginate(10);
+        $reports = Report::with(['product', 'user'])->latest()->paginate(4);
 
-        return view('admin.reports', compact('reports'));
+        return view('admin.reports.index', compact('reports'));
     }
 
     public function updateReportAction(ReportRequest $request)
@@ -39,9 +39,21 @@ class ReportActionController extends Controller
             ]);
 
             Mail::to($product->store->contact_email)->send(new SellerActionMail($product, $request->seller_message));
-            Mail::to($report->user->email)->send(new ReporterFeedbackMail($report,$request->reporter_message));
+            Mail::to($report->user->email)->send(new ReporterFeedbackMail($report, $request->reporter_message));
         });
 
         return back()->with('success', 'Report and Product status updated successfully.');
+    }
+
+    public function index(Request $request)
+    {
+        $query = Report::with(['user', 'product'])->latest();
+
+        if ($request->filled('status') && in_array($request->status, ['pending', 'reviewed', 'resolved', 'rejected'])) {
+            $query->where('status', $request->status);
+        }
+
+        $reports = $query->paginate(4)->withQueryString();
+        return view('admin.reports.index', compact('reports'));
     }
 }

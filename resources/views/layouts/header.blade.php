@@ -54,7 +54,7 @@
 
                         <div x-show="profileMenu" x-transition
                             class="absolute right-0 mt-3 w-48 bg-white rounded-2xl shadow-2xl border border-gray-100 py-2 z-50">
-                            <a href="#"
+                            <a href="{{ route('profile.index') }}"
                                 class="group flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors">
                                 <div class="mr-3 w-5 text-center transition-transform group-hover:scale-110">
                                     <i class="fa-regular fa-circle-user text-slate-400 group-hover:text-blue-500"></i>
@@ -101,8 +101,6 @@
                                         class="font-medium transition-colors duration-200 group-hover:text-blue-600 whitespace-nowrap">
                                         Admin Dashboard
                                     </span>
-
-
                                 </a>
                             @endif
                             <hr class="my-2 border-gray-100">
