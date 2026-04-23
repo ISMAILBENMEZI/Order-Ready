@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\seller\Store;
+namespace App\Http\Requests\Seller\Store;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
