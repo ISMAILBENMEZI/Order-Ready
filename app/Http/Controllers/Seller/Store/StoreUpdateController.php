@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Seller\store;
+namespace App\Http\Controllers\Seller\Store;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\seller\store\StoreUpdateRequest;
+use App\Http\Requests\Seller\Store\StoreUpdateRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Seller\Store;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Seller\Store\StoreProductRequest;
-use App\Http\Requests\seller\Store\UpdateProductRequest;
+use App\Http\Requests\Seller\Store\UpdateProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
