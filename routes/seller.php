@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Seller\Store\StoreController;
 use App\Http\Controllers\Seller\Store\StoreSetupController;
-use App\Http\Controllers\Seller\store\StoreStatisticsController;
-use App\Http\Controllers\Seller\store\StoreUpdateController;
+use App\Http\Controllers\Seller\Store\StoreStatisticsController;
+use App\Http\Controllers\Seller\Store\StoreUpdateController;
 use Illuminate\Support\Facades\Route;
 
 
