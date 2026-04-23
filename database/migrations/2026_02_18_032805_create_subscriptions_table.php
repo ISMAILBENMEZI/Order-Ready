@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('saller_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('paln_id')->constrained('palns')->onDelete('restrict');
+            $table->foreignId('plan_id')->constrained('plans')->onDelete('restrict');
 
             $table->date('start_date');
             $table->date('end_date');
