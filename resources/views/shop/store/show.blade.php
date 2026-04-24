@@ -36,7 +36,7 @@
 
             <div class="relative h-40 sm:h-56 md:h-64 w-full overflow-hidden bg-slate-200">
                 @if ($store->banner_url)
-                    <img src="{{ asset('storage/' . $store->banner_url) }}" class="w-full h-full object-cover"
+                    <img src="{{ Storage::url($store->banner_url) }}" class="w-full h-full object-cover"
                         alt="Store Banner">
                 @else
                     <div
@@ -59,7 +59,7 @@
                             <div
                                 class="w-20 h-20 sm:w-28 sm:h-28 rounded-2xl bg-white border-4 border-white shadow-lg overflow-hidden">
                                 @if ($store->logo_url)
-                                    <img src="{{ asset('storage/' . $store->logo_url) }}"
+                                    <img src="{{ Storage::url($store->logo_url) }}"
                                         class="w-full h-full object-cover" alt="{{ $store->name }}">
                                 @else
                                     <div

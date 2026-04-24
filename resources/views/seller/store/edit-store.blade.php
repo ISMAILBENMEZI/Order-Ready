@@ -129,7 +129,7 @@
                             class="relative h-44 w-44 mx-auto border-2 border-dashed border-slate-200 rounded-full flex flex-col items-center justify-center bg-slate-50 group-hover:bg-white group-hover:border-blue-200 transition-all cursor-pointer overflow-hidden">
 
                             <img id="logo-preview"
-                                src="{{ $store->logo_url ? asset('storage/' . $store->logo_url) : '' }}"
+                                src="{{ $store->logo_url ? Storage::url($store->logo_url) : '' }}"
                                 class="{{ $store->logo_url ? '' : 'hidden' }} absolute inset-0 w-full h-full object-cover z-10"
                                 alt="Logo Preview">
 
@@ -154,7 +154,7 @@
                             style="aspect-ratio: 1500 / 350;">
 
                             <img id="banner-preview"
-                                src="{{ $store->banner_url ? asset('storage/' . $store->banner_url) : '' }}"
+                                src="{{ $store->banner_url ? Storage::url($store->banner_url) : '' }}"
                                 class="{{ $store->banner_url ? '' : 'hidden' }} absolute inset-0 w-full h-full object-cover z-10"
                                 alt="Banner Preview">
 
