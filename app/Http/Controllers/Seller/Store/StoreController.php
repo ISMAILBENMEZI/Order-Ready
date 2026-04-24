@@ -58,7 +58,7 @@ class StoreController extends Controller
                 $file->storeAs('stores/products', $fileName, 'public');
 
                 $product->images()->create([
-                    'image_url' => '/storage/stores/products/' . $fileName,
+                    'image_url' => 'stores/products/' . $fileName,
                     'is_primary' => true
                 ]);
             }
@@ -70,7 +70,7 @@ class StoreController extends Controller
                     $path = $image->storeAs('stores/products', $fileName, 'public');
 
                     $product->images()->create([
-                        'image_url' => '/storage/' . $path,
+                        'image_url' => $path,
                         'is_primary' => false
                     ]);
                 }
