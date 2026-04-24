@@ -5,7 +5,6 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,17 +23,6 @@ class AppServiceProvider extends ServiceProvider
     {
         if (config('app.env') !== 'local') {
             URL::forceScheme('https');
-        }
-
-        \Illuminate\Support\Facades\URL::formatPathUsing(function ($path) {
-            if (str_starts_with($path, 'storage/')) {
-                return str_replace('storage/', '', $path);
-            }
-            return $path;
-        });
-
-        if (config('app.asset_url')) {
-            \Illuminate\Support\Facades\URL::forceRootUrl(config('app.asset_url'));
         }
 
         if (config('filesystems.default') === 's3') {

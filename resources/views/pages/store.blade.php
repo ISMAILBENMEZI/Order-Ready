@@ -66,7 +66,7 @@
 
                     <div class="banner-container relative flex-shrink-0">
                         @if ($store->banner_url)
-                            <img src="{{ asset('storage/' . $store->banner_url) }}" alt="{{ $store->name }}"
+                            <img src="{{ Storage::url($store->banner_url) }}" alt="{{ $store->name }}"
                                 class="w-full h-full object-cover">
                         @else
                             <div class="w-full h-full bg-gradient-to-br from-slate-100 to-slate-200"></div>
@@ -77,7 +77,7 @@
                         <div class="absolute -top-10 left-5">
                             <div
                                 class="w-16 h-16 rounded-2xl border-4 border-white bg-white shadow-md overflow-hidden flex items-center justify-center">
-                                <img src="{{ asset('storage/' . $store->logo_url) }}" alt="logo"
+                                <img src="{{ Storage::url($store->logo_url) }}" alt="logo"
                                     class="w-full h-full object-cover">
                             </div>
                         </div>
