@@ -129,7 +129,7 @@
 
                                 <a href="{{ route('seller.store.show-product', $product->id) }}"
                                     class="block w-full h-full flex items-center justify-center p-4">
-                                    <img src="{{ $product->primaryImage->image_url ?? asset('images/placeholder.jpg') }}"
+                                    <img src="{{ (Storage::url($product->primaryImage->image_url)) }}"
                                         alt="{{ $product->name }}" loading="lazy"
                                         class="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105">
                                 </a>
