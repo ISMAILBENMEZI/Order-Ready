@@ -112,6 +112,7 @@ class StoreController extends Controller
             }
 
             $product = $store->products()->findOrFail($id);
+            $disk = config('filesystems.default');
 
             $product->update([
                 'name' => $request->name,
@@ -125,14 +126,15 @@ class StoreController extends Controller
             if ($request->hasFile('primary_image')) {
                 $primary = $product->images()->where('is_primary', true)->first();
                 if ($primary && $primary->image_url) {
-                    $disk = config('filesystems.default');
-                    Storage::disk($disk)->delete($primary->image_url);
+                    $oldPath = ltrim(str_replace('storage/', '', $primary->image_url), '/');
+                    Storage::disk($disk)->delete($oldPath);
                     $primary->delete();
                 }
 
                 $file = $request->file('primary_image');
                 $fileName = time() . '_primary_' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('stores/products', $fileName, 'public');
+
+                $path = $file->storeAs('stores/products', $fileName, $disk);
 
                 $product->images()->create([
                     'image_url' => $path,
@@ -145,8 +147,8 @@ class StoreController extends Controller
                 foreach ($deletedIds as $imageId) {
                     $image = $product->images()->find($imageId);
                     if ($image && $image->image_url) {
-                        $disk = config('filesystems.default');
-                        Storage::disk($disk)->delete($image->image_url);
+                        $delPath = ltrim(str_replace('storage/', '', $image->image_url), '/');
+                        Storage::disk($disk)->delete($delPath);
                         $image->delete();
                     }
                 }
@@ -154,21 +156,18 @@ class StoreController extends Controller
 
             if ($request->hasFile('imagesinternal')) {
                 $images = $request->file('imagesinternal');
-                if (is_array($images)) {
-                    foreach ($images as $image) {
-                        $fileName = time() . '_gallery_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                        $path = $image->storeAs('stores/products', $fileName, 'public');
+                foreach ($images as $imageFile) {
+                    $fileName = time() . '_gallery_' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                    $path = $imageFile->storeAs('stores/products', $fileName, $disk);
 
-                        $product->images()->create([
-                            'image_url' => $path,
-                            'is_primary' => false
-                        ]);
-                    }
+                    $product->images()->create([
+                        'image_url' => $path,
+                        'is_primary' => false
+                    ]);
                 }
             }
 
             session()->flash('success', 'Product updated successfully!');
-
             return response()->json([
                 'success' => true,
                 'redirect' => route('seller.store.index'),
@@ -177,8 +176,7 @@ class StoreController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Server Error: ' . $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'message' => 'Error: ' . $e->getMessage()
             ], 500);
         }
     }
