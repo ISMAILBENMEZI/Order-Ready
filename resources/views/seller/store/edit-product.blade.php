@@ -135,7 +135,7 @@
                                     class="relative w-full h-48 md:h-64 bg-slate-100 rounded-2xl border border-gray-200 overflow-hidden flex items-center justify-center">
                                     @php $primary = $product->images->where('is_primary', true)->first(); @endphp
 
-                                    <img id="primary-preview" src="{{ $primary ? $primary->image_url : '' }}"
+                                    <img id="primary-preview" src="{{ $primary ? Storage::url($primary->image_url) : '' }}"
                                         class="max-w-full max-h-full object-contain p-2 {{ $primary ? '' : 'hidden' }}">
 
                                     @if (!$primary)
@@ -174,7 +174,7 @@
                                 @foreach ($product->images->where('is_primary', false) as $image)
                                     <div
                                         class="relative aspect-square bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm group">
-                                        <img src="{{ $image->image_url }}" class="w-full h-full object-contain p-1">
+                                        <img src="{{ Storage::url($image->image_url) }}" class="w-full h-full object-contain p-1">
                                         <button type="button"
                                             class="delete-image-btn absolute top-1 right-1 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
                                             data-id="{{ $image->id }}">

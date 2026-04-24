@@ -12,7 +12,7 @@
 
             <a href="{{ route('shop.products.show', $product) }}"
                 class="flex items-center justify-center w-full h-full overflow-hidden rounded-t-2xl">
-                <img src="{{ $product->primaryImage->image_url }}" alt="{{ $product->name }}" loading="lazy"
+                <img src="{{ Storage::url($product->primaryImage->image_url)}}" alt="{{ $product->name }}" loading="lazy"
                     class="max-h-44 max-w-[85%] object-contain transition-transform duration-500 group-hover:scale-105">
             </a>
 

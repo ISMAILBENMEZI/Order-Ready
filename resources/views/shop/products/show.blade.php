@@ -50,7 +50,7 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
 
-                <div x-data="{ active: '{{ $product->images->first()->image_url ?? '' }}' }">
+                <div x-data="{ active: '{{ Storage::url($product->images->first()->image_url )?? '' }}' }">
 
                     <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm mb-4 overflow-hidden">
                         <div
@@ -68,12 +68,12 @@
 
                     <div class="flex gap-3 flex-wrap">
                         @foreach ($product->images as $image)
-                            <button @click="active = '{{ $image->image_url }}'"
-                                :class="active === '{{ $image->image_url }}' ?
+                            <button @click="active = '{{ Storage::url($image->image_url) }}'"
+                                :class="active === '{{ Storage::url($image->image_url) }}' ?
                                     'border-blue-500 shadow-md shadow-blue-500/20 scale-105' :
                                     'border-slate-200 hover:border-blue-300'"
                                 class="w-20 h-20 flex-shrink-0 bg-white rounded-2xl border-2 overflow-hidden transition-all duration-200 focus:outline-none">
-                                <img src="{{ $image->image_url }}" class="w-full h-full object-contain p-2">
+                                <img src="{{ Storage::url($image->image_url) }}" class="w-full h-full object-contain p-2">
                             </button>
                         @endforeach
                     </div>
