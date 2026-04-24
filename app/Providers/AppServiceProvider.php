@@ -29,15 +29,5 @@ class AppServiceProvider extends ServiceProvider
         if (config('filesystems.default') === 's3') {
             URL::forceRootUrl(config('filesystems.disks.s3.url'));
         }
-
-        if (!app()->isLocal()) {
-            URL::formatHostUsing(function ($root, $path) {
-                if (Str::startsWith($path, 'storage/')) {
-                    $newPath = Str::replaceFirst('storage/', '', $path);
-                    return config('app.asset_url') . '/' . $newPath;
-                }
-                return $root;
-            });
-        }
     }
 }
