@@ -182,6 +182,7 @@
     </main>
 
     @include('layouts.footer')
+    assets()
 </body>
 
 </html>

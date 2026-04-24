@@ -28,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         if (config('filesystems.default') === 's3') {
             URL::forceRootUrl(config('filesystems.disks.s3.url'));
         }
+    
     }
 }
