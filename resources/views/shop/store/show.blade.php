@@ -321,7 +321,7 @@
                                 class="relative h-36 sm:h-52 bg-gradient-to-br from-slate-50 to-blue-50/40 flex items-center justify-center overflow-hidden">
                                 <a href="{{ route('shop.products.show', $product) }}"
                                     class="flex items-center justify-center w-full h-full">
-                                    <img src="{{ $product->primaryImage->image_url ?? '' }}"
+                                    <img src="{{ Storage::url($product->primaryImage->image_url) ?? '' }}"
                                         alt="{{ $product->name }}" loading="lazy"
                                         class="max-h-[80%] max-w-[85%] object-contain transition-transform duration-500 group-hover:scale-105">
                                 </a>

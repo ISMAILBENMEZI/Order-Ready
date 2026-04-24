@@ -125,7 +125,8 @@ class StoreController extends Controller
             if ($request->hasFile('primary_image')) {
                 $primary = $product->images()->where('is_primary', true)->first();
                 if ($primary && $primary->image_url) {
-                    Storage::disk('public')->delete(str_replace('/storage/', '', $primary->image_url));
+                    $disk = config('filesystems.default');
+                    Storage::disk($disk)->delete($primary->image_url);
                     $primary->delete();
                 }
 
@@ -134,7 +135,7 @@ class StoreController extends Controller
                 $path = $file->storeAs('stores/products', $fileName, 'public');
 
                 $product->images()->create([
-                    'image_url' => '/storage/' . $path,
+                    'image_url' => $path,
                     'is_primary' => true
                 ]);
             }
@@ -144,7 +145,8 @@ class StoreController extends Controller
                 foreach ($deletedIds as $imageId) {
                     $image = $product->images()->find($imageId);
                     if ($image && $image->image_url) {
-                        Storage::disk('public')->delete(str_replace('/storage/', '', $image->image_url));
+                        $disk = config('filesystems.default');
+                        Storage::disk($disk)->delete($image->image_url);
                         $image->delete();
                     }
                 }
@@ -158,7 +160,7 @@ class StoreController extends Controller
                         $path = $image->storeAs('stores/products', $fileName, 'public');
 
                         $product->images()->create([
-                            'image_url' => '/storage/' . $path,
+                            'image_url' => $path,
                             'is_primary' => false
                         ]);
                     }
@@ -166,7 +168,7 @@ class StoreController extends Controller
             }
 
             session()->flash('success', 'Product updated successfully!');
-            
+
             return response()->json([
                 'success' => true,
                 'redirect' => route('seller.store.index'),
@@ -201,9 +203,12 @@ class StoreController extends Controller
         }
 
         foreach ($product->images as $image) {
-            $path = str_replace('/storage/', '', $image->image_url);
-            if (file_exists(public_path($image->image_url))) {
-                unlink(public_path($image->image_url));
+            $filePath = ltrim($image->image, '/');
+
+            $disk = config('filesystems.default');
+
+            if (Storage::disk($disk)->exists($filePath)) {
+                Storage::disk($disk)->delete($filePath);
             }
         }
 

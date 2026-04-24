@@ -36,7 +36,7 @@
             </div>
 
             <div class="hidden md:block bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
-                <img src="{{ $product->primaryImage->image_url }}" class="w-full h-40 object-cover">
+                <img src="{{ Storage::url($product->primaryImage->image_url) }}" class="w-full h-40 object-cover">
                 <div class="p-4">
                     <span class="text-[9px] bg-blue-50 text-blue-600 px-2 py-0.5 rounded font-black uppercase mb-2 inline-block">Item Inquiry</span>
                     <h4 class="text-sm font-bold text-slate-800 leading-tight mb-1">{{ $product->name }}</h4>

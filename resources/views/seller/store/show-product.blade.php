@@ -78,7 +78,7 @@
                                         $product->images->first();
                                 @endphp
                                 <img id="main-display-image"
-                                    src="{{ $primaryImage->image_url ?? asset('images/default.jpg') }}"
+                                    src="{{ Storage::url($product->primaryImage->image_url) }}"
                                     alt="{{ $product->name }}"
                                     class="w-full h-full object-contain bg-white transition-transform duration-700">
 
@@ -94,9 +94,9 @@
                             @if ($product->images->count() > 1)
                                 <div class="flex gap-4 mt-6 overflow-x-auto pb-2 scrollbar-hide">
                                     @foreach ($product->images as $image)
-                                        <button onclick="changeMainImage('{{ $image->image_url }}', this)"
+                                        <button onclick="changeMainImage('{{ Storage::url($image->image_url) }}', this)"
                                             class="thumbnail-btn flex-shrink-0 w-20 h-20 rounded-2xl overflow-hidden border-2 transition-all {{ $image->is_primary ? 'border-blue-500 shadow-md' : 'border-white hover:border-blue-200' }}">
-                                            <img src="{{ $image->image_url }}" class="w-full h-full object-contain">
+                                            <img src="{{ Storage::url($image->image_url) }}" class="w-full h-full object-contain">
                                         </button>
                                     @endforeach
                                 </div>
