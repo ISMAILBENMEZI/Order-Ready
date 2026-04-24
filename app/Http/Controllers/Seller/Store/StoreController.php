@@ -205,16 +205,23 @@ class StoreController extends Controller
         foreach ($product->images as $image) {
             $filePath = ltrim($image->image, '/');
 
-            $disk = config('filesystems.default');
-
-            if (Storage::disk($disk)->exists($filePath)) {
-                Storage::disk($disk)->delete($filePath);
+            try {
+                if (config('filesystems.default') === 's3') {
+                    Storage::disk('s3')->delete($filePath);
+                } else {
+                    $fullLocalPath = public_path($filePath);
+                    if (file_exists($fullLocalPath)) {
+                        @unlink($fullLocalPath);
+                    }
+                }
+            } catch (\Exception $e) {
+                Log::error("Could not delete file: " . $filePath . " Error: " . $e->getMessage());
             }
         }
 
         $product->delete();
 
-        return back()->with('success', 'Product deleted successfully!');
+        return back()->with('success', 'Product has been successfully deleted');
     }
 
     public function showProduct($id)
