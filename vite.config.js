@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/store/store-setup.js',
+                'resources/js/store/edit-product.js',
                 'resources/js/auth/register.js',
                 'resources/js/auth/login.js',
                 'resources/js/store/create-product.js',
