@@ -41,7 +41,7 @@
                     <div class="relative mb-4">
                         <div
                             class="w-24 h-24 rounded-full overflow-hidden bg-slate-50 border-4 border-white shadow-inner grayscale group-hover:grayscale-0 transition-all">
-                            <img src="{{ $product->primaryImage->image_url ?? asset('images/default.png') }}"
+                            <img src="{{ Storeage::url($product->primaryImage->image_url)}}"
                                 class="w-full h-full object-cover">
                         </div>
                         <div
