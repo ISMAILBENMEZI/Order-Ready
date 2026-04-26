@@ -58,7 +58,7 @@
                     ${{ number_format($product->price, 2) }}
                 </p>
                 @if ($product->primaryImage)
-                    <img src="{{ $product->primaryImage->image_url }}" alt="{{ $product->name }}" class="product-img">
+                    <img src="{{Storage::url($product->primaryImage->image_url ) }}" alt="{{ $product->name }}" class="product-img">
                 @endif
             </div>
 
