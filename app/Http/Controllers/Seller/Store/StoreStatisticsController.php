@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Seller\Store;
 
 use App\Http\Controllers\Controller;
 use App\Models\Favorite;
+use App\Models\InterestRequest;
+use App\Models\Product;
+use App\Models\Report;
 use App\Models\Store;
 
 class StoreStatisticsController extends Controller
@@ -36,8 +39,10 @@ class StoreStatisticsController extends Controller
             ->sum('reports_count');
 
         $goodRatedProducts = $store->products()
-            ->withAvg('ratings', 'rating')
-            ->having('ratings_avg_rating', '>=', 4)
+            ->whereHas('ratings', function ($query) {
+                $query->selectRaw('avg(rating)')
+                    ->havingRaw('avg(rating) >= ?', [4]);
+            })
             ->count();
 
         $interests = $store->products()
@@ -86,7 +91,11 @@ class StoreStatisticsController extends Controller
     {
         $products = $store->products()
             ->withCount('interestRequests')
-            ->orderByDesc('interest_requests_count')
+            ->orderBy(
+                InterestRequest::selectRaw('count(*)')
+                    ->whereColumn('product_id', 'products.id'),
+                'desc'
+            )
             ->take(12)
             ->get();
 
@@ -97,7 +106,12 @@ class StoreStatisticsController extends Controller
     {
         $products = $store->products()
             ->withCount('reports')
-            ->orderByDesc('reports_count')
+            ->orderBy(
+                Report::selectRaw('count(*)')
+                    ->whereColumn('reportable_id', 'products.id') 
+                    ->where('reportable_type', Product::class), 
+                'desc'
+            )
             ->take(12)
             ->get();
 
