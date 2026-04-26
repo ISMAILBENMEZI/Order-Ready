@@ -70,8 +70,8 @@ class StoreStatisticsController extends Controller
     {
         $products = $store->products()
             ->with('primaryImage')
-            ->withcount('favorites')
-            ->orderByDesc('favorites_count')
+            ->withCount('favorites')
+            ->orderBy('favorites_count', 'desc')
             ->take(12)
             ->get();
 
