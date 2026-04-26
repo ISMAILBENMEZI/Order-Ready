@@ -27,8 +27,7 @@ class StoreStatisticsController extends Controller
         $followers = $store->followers()->count();
 
         $topFavoritedProducts = $store->products()
-            ->withCount('favorites')
-            ->having('favorites_count', '>=', 10)
+            ->has('favorites', '>=', 10)
             ->count();
 
         $reports = $store->products()
