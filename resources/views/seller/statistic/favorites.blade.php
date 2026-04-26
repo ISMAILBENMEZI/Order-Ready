@@ -40,7 +40,7 @@
 
                     <div class="relative flex-shrink-0">
                         <div class="w-16 h-16 rounded-2xl overflow-hidden bg-slate-50 border border-slate-100">
-                            <img src="{{ $product->primaryImage->image_url ?? asset('images/default.png') }}"
+                            <img src="{{ Storage::url($product->primaryImage->image_url )}}"
                                 class="w-full h-full object-cover">
                         </div>
                         <div
