@@ -40,8 +40,9 @@ class StoreStatisticsController extends Controller
 
         $goodRatedProducts = $store->products()
             ->whereHas('ratings', function ($query) {
-                $query->selectRaw('avg(rating)')
-                    ->havingRaw('avg(rating) >= ?', [4]);
+                $query->select('product_id')
+                    ->groupBy('product_id')
+                    ->havingRaw('AVG(rating) >= ?', [4]);
             })
             ->count();
 
@@ -108,8 +109,8 @@ class StoreStatisticsController extends Controller
             ->withCount('reports')
             ->orderBy(
                 Report::selectRaw('count(*)')
-                    ->whereColumn('reportable_id', 'products.id') 
-                    ->where('reportable_type', Product::class), 
+                    ->whereColumn('reportable_id', 'products.id')
+                    ->where('reportable_type', Product::class),
                 'desc'
             )
             ->take(12)
