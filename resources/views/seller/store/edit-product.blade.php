@@ -5,7 +5,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Edit Product - {{ $product->name }}</title>
     @include('layouts.head')
-    @vite(['resources/js/store/edit-product.js', 'resources/js/globalUtils/notifications.js'])
+    @vite(['resources/js/store/edit-product.js'])
 </head>
 
 <body class="bg-slate-50 min-h-screen flex flex-col">
