@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\Favorite;
 use App\Models\Store;
 
 class StoreStatisticsController extends Controller
@@ -71,7 +72,11 @@ class StoreStatisticsController extends Controller
         $products = $store->products()
             ->with('primaryImage')
             ->withCount('favorites')
-            ->orderBy('favorites_count', 'desc')
+            ->orderBy(
+                Favorite::selectRaw('count(*)')
+                    ->whereColumn('product_id', 'products.id'),
+                'desc'
+            )
             ->take(12)
             ->get();
 
