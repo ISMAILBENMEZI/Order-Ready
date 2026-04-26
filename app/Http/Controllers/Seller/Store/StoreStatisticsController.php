@@ -91,9 +91,9 @@ class StoreStatisticsController extends Controller
     public function interests(Store $store)
     {
         $products = $store->products()
-            ->withCount('interestRequests')
+            ->withCount('interestRequests as interests_count') 
             ->orderBy(
-                InterestRequest::selectRaw('count(*)')
+                \App\Models\InterestRequest::selectRaw('count(*)')
                     ->whereColumn('product_id', 'products.id'),
                 'desc'
             )
@@ -109,8 +109,7 @@ class StoreStatisticsController extends Controller
             ->withCount('reports')
             ->orderBy(
                 Report::selectRaw('count(*)')
-                    ->whereColumn('reportable_id', 'products.id')
-                    ->where('reportable_type', Product::class),
+                    ->whereColumn('product_id', 'products.id'),
                 'desc'
             )
             ->take(12)
