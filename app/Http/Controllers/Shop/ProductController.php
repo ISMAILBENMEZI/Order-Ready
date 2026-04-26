@@ -46,7 +46,7 @@ class ProductController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'html' => view('shop.products.partials.products', compact('products'))->render(),
+                'html' => view('partials.products', compact('products'))->render(),
                 'next_page' => $products->nextPageUrl(),
             ]);
         }
