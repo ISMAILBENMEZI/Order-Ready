@@ -85,7 +85,7 @@ class StoreController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Something went wrong while updating the status. Please try again later.'
+                'message' => 'Something went wrong while creating the product. Please try again later.'
             ], 500);
         }
     }
@@ -176,7 +176,7 @@ class StoreController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error: ' . $e->getMessage()
+                'message' => 'Something went wrong while updating the product. Please try again later.'
             ], 500);
         }
     }

@@ -4,7 +4,7 @@
             
             @if($message->product_id && $message->product)
                 <div class="flex items-center gap-3 p-2 bg-blue-50 border border-blue-100 rounded-t-2xl shadow-sm">
-                    <img src="{{  Storage::url($message->product->primaryImage->image_url)) }}" 
+                    <img src="{{  Storage::url($message->product->primaryImage->image_url)}}" 
                          class="w-10 h-10 rounded-lg object-cover border border-white">
                     <div class="flex flex-col">
                         <span class="text-[10px] font-black text-slate-800 truncate w-32">
