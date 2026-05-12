@@ -1,9 +1,8 @@
-// نضع window. لكي تكون الدالة متاحة في كل المشروع
 window.showAlert = function (message, type = "error") {
     const alertBox = document.getElementById("form-alert");
 
     if (!alertBox) {
-        alert(message); // fallback في حال عدم وجود الـ div
+        alert(message); 
         return;
     }
 
@@ -16,7 +15,6 @@ window.showAlert = function (message, type = "error") {
     alertBox.className = baseClasses + typeClasses;
     alertBox.classList.remove("hidden");
 
-    // إخفاء تلقائي بعد 5 ثوانٍ
     setTimeout(() => {
         alertBox.classList.add("hidden");
     }, 5000);

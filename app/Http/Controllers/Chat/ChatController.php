@@ -15,9 +15,10 @@ class ChatController extends Controller
     public function index(User $user)
     {
         $messages = $this->getChatMessages($user);
+        
         $product = null;
         if (request()->has('product')) {
-            $product = \App\Models\Product::with('primaryImage')->find(request('product'));
+            $product = Product::with('primaryImage')->find(request('product'));
         }
         if (!$product) {
             $lastMessageWithProduct = Message::where(function ($q) use ($user) {

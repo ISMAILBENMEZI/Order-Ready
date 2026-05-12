@@ -30,7 +30,7 @@
     </style>
 </head>
 
-<body class="bg-slate-100 min-h-screen flex flex-col" x-data="{ reportModalOpen: false }">
+<body class="bg-slate-100 min-h-screen flex flex-col" x-data="{ reportModalOpen: window.location.search.includes('report') }">
 
     @include('layouts.header')
     @include('layouts.notifications')

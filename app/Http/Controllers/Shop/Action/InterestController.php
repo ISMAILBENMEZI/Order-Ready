@@ -3,33 +3,47 @@
 namespace App\Http\Controllers\Shop\Action;
 
 use App\Http\Controllers\Controller;
-use App\Mail\Shop\InterestMail;
-use App\Models\Message;
-use App\Models\Product;
 use App\Models\InterestRequest;
+use App\Models\Product;
+use App\Services\InterestService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class InterestController extends Controller
 {
-    public function interest(Product $product)
+
+    private InterestService $interestService;
+
+    /**
+     * Constructor - Inject InterestService via Dependency Injection
+     *
+     * Laravel automatically resolves this dependency from the service container.
+     * This is cleaner than using Facades and makes testing much easier.
+     *
+     * @param InterestService $interestService
+     */
+    public function __construct(InterestService $interestService)
     {
-        Message::create([
-            'sender_id' => Auth::id(),
-            'receiver_id' => $product->store->seller_id,
-            'product_id' => $product->id ?? null,
-            'message' => 'I am interested in this product',
-        ]);
+        $this->interestService = $interestService;
+    }
 
-        InterestRequest::firstOrCreate([
-            'user_id' => Auth::id(),
-            'product_id' => $product->id,
-            'message' => 'I am interested in this product',
-        ]);
-
-        Mail::to($product->store->contact_email)->send(
-            new InterestMail($product, Auth::user())
-        );
-        return back();
+    /**
+     * Handle user interest in a product
+     *
+     * Responsibilities:
+     * 1. Extract HTTP request data (product and authenticated user)
+     * 2. Delegate business logic to InterestService
+     * 3. Return HTTP response
+     *
+     * @param Product 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function interest(InterestRequest $request,Product $product)
+    {
+        try {
+            $this->interestService->sendInterest(Auth::user(), $product);
+            return back()->with('success', 'Interest sent successfully');
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Something went wrong, please try again');
+        }
     }
 }

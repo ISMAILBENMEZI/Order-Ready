@@ -27,7 +27,7 @@
                     {{ substr($user->name, 0, 1) }}
                 </div>
                 <div class="min-w-0">
-                    <h2 class="text-sm font-bold text-slate-800 truncate">{{ $user->name }}</h2>
+                    <h2 class="text-sm font-bold text-slate-800 truncate">{{$user->name}}</h2>
                     <div class="flex items-center gap-1.5">
                         <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
                         <span class="text-[10px] text-slate-400 font-bold uppercase">Online</span>

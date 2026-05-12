@@ -58,7 +58,7 @@ class StoreSetupController extends Controller
             $store = Store::create([
                 'seller_id' => Auth::id(),
                 'name' => $data['name'],
-                'slug' => Str::slug($data['name'] . '-'.uniqid()),
+                'slug' => Str::slug($data['name'] . '-' . uniqid()),
                 'description' => $data['description'],
                 'location' => $data['location'],
                 'contact_email' => $data['contact_email'],

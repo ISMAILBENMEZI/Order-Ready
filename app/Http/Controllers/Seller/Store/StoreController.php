@@ -201,7 +201,7 @@ class StoreController extends Controller
         }
 
         foreach ($product->images as $image) {
-            $filePath = ltrim($image->image, '/');
+            $filePath = ltrim($image->image_url, '/');
 
             try {
                 if (config('filesystems.default') === 's3') {
